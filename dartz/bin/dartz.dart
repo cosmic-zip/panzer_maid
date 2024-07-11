@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 
 void main(List<String> arguments) {
-  print('Hello world: ${dartz.calculate()}!');
+  var log = dartz.logger("test", "in", "out");
+  var mog = dartz.puts("Hello puts!", color: "black");
 }
