@@ -1,4 +1,17 @@
+import 'dart:io';
 import 'dart:convert';
+
+dynamic import_bank() async {
+  try {
+    final file = File('../db/db.json');
+    String contents = await file.readAsString();
+    Map<String, dynamic> json = jsonDecode(contents);
+    return json;
+  } catch (e) {
+    print("@@@ $e");
+    return jsonDecode("error");
+  }
+}
 
 bool logger(name, origin, output) {
   var json = {
