@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:panzer_maid/panzer_maid.dart';
 import 'package:test/test.dart';
 
 void main() {

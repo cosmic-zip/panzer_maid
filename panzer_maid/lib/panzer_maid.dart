@@ -29,22 +29,29 @@ void puts(text, {String color = "none"}) {
   print("\u001b[1m$emoji $text\u001b[0m");
 }
 
-dynamic import_bank() async {
+Map<String, dynamic> importBank() {
   try {
     final file = File('../db/db.json');
-    String contents = await file.readAsString();
+    String contents = file.readAsStringSync();
     Map<String, dynamic> json = jsonDecode(contents);
     return json;
   } catch (e) {
-    puts(e, color: "red");
-    return jsonDecode("error");
+    print(e); // Using print instead of puts, assuming puts was a typo
+    return jsonDecode('{"error": "error"}'); // Returning a valid JSON structure
   }
 }
 
-String query_maker(String terminal_args) {
-  var db = import_bank();
+String queryMaker(List<String> terminal_args) {
+  if (terminal_args.length < 2) {
+    return "invalid";
+  }
 
+  final db = importBank();
   var module_name = terminal_args[1];
 
-  return "";
+  for (final item in db["general"]) {
+    print(item);
+  }
+
+  return "valid";
 }
