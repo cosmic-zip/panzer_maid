@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:async';
-import 'dart:isolate';
 import 'dart:convert';
 
 bool logger(name, origin, output) {
