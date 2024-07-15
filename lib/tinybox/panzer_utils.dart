@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:async';
+import 'dart:isolate';
 import 'dart:convert';
 
 bool logger(name, origin, output) {
@@ -14,6 +16,10 @@ bool logger(name, origin, output) {
 }
 
 void puts(text, {String color = "none"}) {
+  if (text == "") {
+    text = "Nothing to see here, check if your input are right.";
+  }
+
   const color_emojis = {
     "purple": "🟣",
     "red": "🔴",
@@ -25,7 +31,6 @@ void puts(text, {String color = "none"}) {
     "black": "⚫",
   };
   String emoji = color_emojis[color] ?? "";
-
   print("\u001b[1m$emoji $text\u001b[0m");
 }
 
@@ -41,8 +46,8 @@ Map<String, dynamic> importBank() {
   }
 }
 
-String queryMaker(List<String> terminal_args) {
-  if (terminal_args.length == 2) {
+String queryMaker(List<String> terminalArgs) {
+  if (terminalArgs.length == 0) {
     return "invalid";
   }
 
@@ -50,26 +55,26 @@ String queryMaker(List<String> terminal_args) {
   // const pattern = r"\s*@@(\w+)\s*";
 
   for (final item in db["general"]) {
-    if (item["name"] != terminal_args[0]) {
+    if (item["name"] != terminalArgs[0]) {
       continue;
     }
 
-    if (terminal_args.length == 1) {
+    if (terminalArgs.length == 1) {
       return item["command"];
     }
 
     String cmd = item["command"];
 
-    for (final key in terminal_args) {
+    for (final key in terminalArgs) {
       if (key.startsWith("--") || key.startsWith("-")) {
-        var key_index = terminal_args.indexOf(key);
-        if (key_index + 1 >= terminal_args.length) {
+        var key_index = terminalArgs.indexOf(key);
+        if (key_index + 1 >= terminalArgs.length) {
           puts(
               "Index out of range while searching for an value for the key: $key",
               color: "red");
           return "Index out of range";
         }
-        var value = terminal_args[key_index + 1];
+        var value = terminalArgs[key_index + 1];
         var parsed_key = key.replaceAll('-', '');
         cmd = cmd.replaceAll("@@$parsed_key", value);
       }
@@ -79,4 +84,35 @@ String queryMaker(List<String> terminal_args) {
   }
 
   return "out";
+}
+
+Future<int> rawExec(
+    List<String> terminalArgs, Completer<void> completer) async {
+
+  var out = await Process.run("/bin/sh", ['-c', "sleep 3"]);
+  stdout.write(out.stdout);
+
+  if (out.stderr != "") {
+    puts("Error", color: "red");
+    stdout.write(out.stderr);
+  }
+  completer.complete();
+  return out.exitCode;
+}
+
+Future<int> panzerRunner(List<String> terminalArgs) async {
+  var completer = Completer<void>();
+
+  var counter = 0;
+  Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    if (completer.isCompleted) {
+      print('Done');
+      timer.cancel();
+    } else {
+      counter = counter + 1;
+      stdout.write('\rThread ainda está em execução $counter');
+    }
+  });
+
+  return await rawExec(terminalArgs, completer);
 }
