@@ -1,18 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
 
-dynamic import_bank() async {
-  try {
-    final file = File('../db/db.json');
-    String contents = await file.readAsString();
-    Map<String, dynamic> json = jsonDecode(contents);
-    return json;
-  } catch (e) {
-    print("@@@ $e");
-    return jsonDecode("error");
-  }
-}
-
 bool logger(name, origin, output) {
   var json = {
     "name": name,
@@ -25,7 +13,7 @@ bool logger(name, origin, output) {
   return true;
 }
 
-void puts(name, {String color = "none"}) {
+void puts(text, {String color = "none"}) {
   const color_emojis = {
     "purple": "🟣",
     "red": "🔴",
@@ -38,5 +26,25 @@ void puts(name, {String color = "none"}) {
   };
   String emoji = color_emojis[color] ?? "";
 
-  print("\u001b[1m$emoji $name\u001b[0m");
+  print("\u001b[1m$emoji $text\u001b[0m");
+}
+
+dynamic import_bank() async {
+  try {
+    final file = File('../db/db.json');
+    String contents = await file.readAsString();
+    Map<String, dynamic> json = jsonDecode(contents);
+    return json;
+  } catch (e) {
+    puts(e, color: "red");
+    return jsonDecode("error");
+  }
+}
+
+String query_maker(String terminal_args) {
+  var db = import_bank();
+
+  var module_name = terminal_args[1];
+
+  return "";
 }
