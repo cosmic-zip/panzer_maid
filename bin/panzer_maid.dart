@@ -1,4 +1,5 @@
 import 'package:panzer_maid/tinybox/utils.dart';
+import 'package:panzer_maid/tinybox/panzer_status.dart';
 
 void main(List<String> arguments) {
   var log = logger("test", "in", "out");
@@ -7,4 +8,5 @@ void main(List<String> arguments) {
   print(db["generic"]);
   print(arguments);
   queryMaker(arguments);
+  panzerStatus();
 }
