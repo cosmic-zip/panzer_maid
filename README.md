@@ -23,8 +23,7 @@ Now, I have migrated my entire stack to Flutter and backend to serverless techno
 | **LinuxEvilToolkit**       | Original toolkit from 2018, uses ruby and store all alias and scripts inside variables, the most complete version,   deprecated due complexity            |
 | **MaidSecLists 2024 Rev2** | My own version of SecLists but using standard file names, merging word lists and remove garbage files, this rev2 refers to MaidZ version of MaidSecLists. |
 
-
-<center>
+<div style="text-align: center;">
   <p>BSD 3-Clause License</p>
   <p>Copyright (c) 2024, Cosmic</p>
-</center>
+</div>
