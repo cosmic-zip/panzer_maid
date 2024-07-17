@@ -87,7 +87,6 @@ String queryMaker(List<String> terminalArgs) {
 
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
-
   var out = await Process.run("/bin/sh", ['-c', "sleep 3"]);
   stdout.write(out.stdout);
 
