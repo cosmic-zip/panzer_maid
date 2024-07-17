@@ -1,8 +1,5 @@
 import 'package:panzer_maid/tinybox/panzer_utils.dart';
 
-void main(List<String> arguments) {
-  // print(queryMaker(arguments));
-  // panzerRunner(arguments);
-
-  print("|" + ("*" * 98) + "|");
+void main(List<String> arguments) async {
+  panzerRunner(arguments);
 }

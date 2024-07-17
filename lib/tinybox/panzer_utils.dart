@@ -14,23 +14,68 @@ bool logger(name, origin, output) {
   return true;
 }
 
-void puts(text, {String color = "none"}) {
+String puts(text,
+    {String color = "none",
+    String bgcolor = "none",
+    String style = "bold",
+    bool output = true}) {
   if (text == "") {
-    text = "Nothing to see here, check if your input are right.";
+    return "";
   }
 
-  const color_emojis = {
-    "purple": "🟣",
-    "red": "🔴",
-    "green": "🟢",
-    "yellow": "🟡",
-    "blue": "🔵",
-    "orange": "🟠",
-    "white": "⚪",
-    "black": "⚫",
+  var reset = '\x1B[0m';
+
+  const colorCodes = {
+    'black': '\x1B[30m',
+    'red': '\x1B[31m',
+    'green': '\x1B[32m',
+    'yellow': '\x1B[33m',
+    'blue': '\x1B[34m',
+    'magenta': '\x1B[35m',
+    'cyan': '\x1B[36m',
+    'white': '\x1B[37m',
+    'gray': '\x1B[90m',
   };
-  String emoji = color_emojis[color] ?? "";
-  print("\u001b[1m$emoji $text\u001b[0m");
+
+  const background_color = {
+    'bgBlack': '\x1B[40m',
+    'bgRed': '\x1B[41m',
+    'bgGreen': '\x1B[42m',
+    'bgYellow': '\x1B[43m',
+    'bgBlue': '\x1B[44m',
+    'bgMagenta': '\x1B[45m',
+    'bgCyan': '\x1B[46m',
+    'bgWhite': '\x1B[47m',
+  };
+
+  const font_style = {
+    'bold': '\x1B[1m',
+    'dim': '\x1B[2m',
+    'italic': '\x1B[3m',
+    'underline': '\x1B[4m',
+    'inverse': '\x1B[7m',
+    'hidden': '\x1B[8m',
+    'strikethrough': '\x1B[9m',
+  };
+
+  var formated_text = text;
+
+  if (colorCodes[color] != null) {
+    formated_text = "${colorCodes[color]}$formated_text$reset";
+  }
+
+  if (background_color[bgcolor] != null) {
+    formated_text = "${background_color[bgcolor]}$formated_text$reset";
+  }
+
+  if (font_style[style] != null) {
+    // formated_text = "$font_style[style]$formated_text$reset";
+  }
+
+  if (output == true) {
+    print(formated_text);
+  }
+  return formated_text;
 }
 
 Map<String, dynamic> importBank() {
