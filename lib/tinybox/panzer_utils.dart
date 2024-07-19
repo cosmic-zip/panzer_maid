@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'package:panzer_maid/tinybox/panzer_tui.dart';
 
 bool logger(name, origin, output) {
   var json = {
@@ -132,7 +133,7 @@ String queryMaker(List<String> terminalArgs) {
 
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
-  var out = await Process.run("/bin/sh", ['-c', "sleep 3"]);
+  var out = await Process.run("/bin/sh", ['-c', "sleep 7"]);
   stdout.write(out.stdout);
 
   if (out.stderr != "") {
@@ -143,17 +144,25 @@ Future<int> rawExec(
   return out.exitCode;
 }
 
+Future<int> internalExec(String command) async {
+  var out = await Process.run("/bin/sh", ['-c', command]);
+  stdout.write(out.stdout);
+  return out.exitCode;
+}
+
 Future<int> panzerRunner(List<String> terminalArgs) async {
   var completer = Completer<void>();
-
-  var counter = 0;
-  Timer.periodic(Duration(milliseconds: 1000), (timer) {
+  var seconds = 0;
+  Timer.periodic(Duration(seconds: 1), (timer) {
     if (completer.isCompleted) {
-      print('Done');
+      print(' :: Done');
       timer.cancel();
     } else {
-      counter = counter + 1;
-      stdout.write('\rThread ainda está em execução $counter');
+      seconds += 1;
+      if (seconds > 2) {
+        stdout.write(
+            "\r\rWait for it to finish. I'll give you a seconds counter: ${seconds}");
+      }
     }
   });
 
