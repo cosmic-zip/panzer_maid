@@ -161,13 +161,19 @@ Future<int> rawExec(
   return out.exitCode;
 }
 
-// Dont use with panzerRunner function!
+/// Internal testing function, dont mix with panzerRunner
+///
+/// Revive an string [command] and executes with not tests
+/// or validation.
 Future<int> internalExec(String command) async {
   var out = await Process.run("/bin/sh", ['-c', command]);
   stdout.write(out.stdout);
   return out.exitCode;
 }
 
+/// Core function to execute db.json execs and native execs.
+///
+/// It need system args like [terminalArgs]. Also, use with await.
 Future<int> panzerRunner(List<String> terminalArgs) async {
   var completer = Completer<void>();
   var seconds = 0;
@@ -186,4 +192,13 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   });
 
   return await rawExec(terminalArgs, completer);
+}
+
+Future<int> raw(terminalArgs) async {
+  puts('Use command string inside quotes, like "command --foo bar"\n',
+      style: 'bold', color: 'yellow');
+  if (terminalArgs.length >= 2) {
+    return internalExec(terminalArgs[1]);
+  }
+  return 255;
 }
