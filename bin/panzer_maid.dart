@@ -1,7 +1,5 @@
-import 'package:panzer_maid/tinybox/panzer_utils.dart';
-import 'package:panzer_maid/tinybox/panzer_tui.dart';
+import 'package:panzer_maid/tinybox/panzer_shell.dart';
 
-void main(List<String> arguments) async {
-  panzerMaidWelcome();
-  panzerRunner(arguments);
+void main(List<String> terminalArgs) async {
+  panzerMaidShell(terminalArgs);
 }

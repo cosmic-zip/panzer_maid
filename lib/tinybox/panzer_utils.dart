@@ -95,10 +95,24 @@ Map<String, dynamic> importBank() {
   }
 }
 
-String queryMaker(List<String> terminalArgs) {
-  if (terminalArgs.length == 0) {
-    return "nothing";
+String searchKeyValue(List terminalArgs, {String key = ""}) {
+  if (terminalArgs.length < 2) return "";
+  if (key == "") key = terminalArgs[1];
+
+  for (final key in terminalArgs) {
+    var key_index = terminalArgs.indexOf(key);
+    if (key_index + 1 >= terminalArgs.length) {
+      return "";
+    }
+    // Filter and Return
+    var parsed = key.replaceAll('-', '');
+    if (parsed == key) return terminalArgs[key_index + 1];
   }
+  return "";
+}
+
+String queryMaker(List<String> terminalArgs) {
+  if (terminalArgs.length == 0) return "nothing";
 
   final db = importBank();
   for (final item in db["general"]) {
@@ -114,7 +128,7 @@ String queryMaker(List<String> terminalArgs) {
       if (key.startsWith("--") || key.startsWith("-")) {
         var key_index = terminalArgs.indexOf(key);
         if (key_index + 1 >= terminalArgs.length) {
-          return "Index out of range";
+          return "Index overflow";
         }
         // Filter and Return
         var value = terminalArgs[key_index + 1];

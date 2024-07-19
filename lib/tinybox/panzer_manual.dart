@@ -25,40 +25,38 @@ String argumentMeanings(String arg) {
   return out;
 }
 
-void userManual({String module = 'all', bool exec = false}) {
-  var db = importBank();
+void putsItem(Map<String, dynamic> item) {
+  if (item.isEmpty) return;
 
-  void putsItem(Map<String, dynamic> item) {
-    if (item.isEmpty) {
-      return;
+  puts("Name: ${item["name"]}", color: 'magenta', style: 'bold');
+  if (true)
+    puts("Exec build: ${item["command"]}", color: 'white', style: 'bold');
+
+  var string_args = [];
+  for (final String arg in item['command'].split(" ")) {
+    if (arg.contains("@@") && !string_args.contains(arg)) {
+      var parsed = arg.replaceAll("@", "");
+      parsed = parsed.replaceAll(":", "");
+      string_args.add(parsed);
+      argumentMeanings(parsed);
     }
-
-    puts("Name: ${item["name"]}", color: 'magenta', style: 'bold');
-    if (exec)
-      puts("Exec build: ${item["command"]}", color: 'white', style: 'bold');
-
-    var string_args = [];
-    for (final String arg in item['command'].split(" ")) {
-      if (arg.contains("@@") && !string_args.contains(arg)) {
-        var parsed = arg.replaceAll("@", "");
-        parsed = parsed.replaceAll(":", "");
-        string_args.add(parsed);
-        argumentMeanings(parsed);
-      }
-    }
-
-    puts("Description: ${item["description"]}", color: 'white');
   }
+  puts("Description: ${item["description"]}", color: 'white');
+}
+
+void userManual(List terminalArgs) {
+  var db = importBank();
+  var module = 'all';
+  if (terminalArgs.length >= 2) module = terminalArgs[1];
 
   if (module == 'all') {
     for (final item in db['general']) {
       putsItem(item);
     }
+    drawLine('magenta');
   } else {
     for (final item in db['general']) {
       if (item['name'] == module) putsItem(item);
     }
   }
-
-  drawLine('magenta');
 }
