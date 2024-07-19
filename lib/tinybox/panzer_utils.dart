@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:panzer_maid/tinybox/panzer_tui.dart';
 
 bool logger(name, origin, output) {
@@ -62,16 +63,19 @@ String puts(text,
   var formated_text = text;
 
   if (colorCodes[color] != null) {
-    formated_text = "${colorCodes[color]}$formated_text$reset";
+    formated_text = "${colorCodes[color]}$formated_text";
   }
 
   if (background_color[bgcolor] != null) {
-    formated_text = "${background_color[bgcolor]}$formated_text$reset";
+    formated_text = "${background_color[bgcolor]}$formated_text";
   }
 
   if (font_style[style] != null) {
-    // formated_text = "$font_style[style]$formated_text$reset";
+    print(font_style[style]);
+    formated_text = "\x1B[1m$formated_text";
   }
+
+  formated_text = formated_text + reset;
 
   if (output == true) {
     print(formated_text);
@@ -93,7 +97,7 @@ Map<String, dynamic> importBank() {
 
 String queryMaker(List<String> terminalArgs) {
   if (terminalArgs.length == 0) {
-    return "invalid";
+    return "nothing";
   }
 
   final db = importBank();
@@ -128,16 +132,23 @@ String queryMaker(List<String> terminalArgs) {
     return cmd;
   }
 
-  return "out";
+  return "nothing";
 }
 
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
-  var out = await Process.run("/bin/sh", ['-c', "sleep 7"]);
+  if (terminalArgs.isEmpty) {
+    completer.complete();
+    return 255;
+  }
+
+  var query = queryMaker(terminalArgs);
+  var out = await Process.run("/bin/sh", ['-c', query]);
+  puts("\r\rExec result :: Eexecuted", color: "green", style: 'bold');
   stdout.write(out.stdout);
 
   if (out.stderr != "") {
-    puts("Error", color: "red");
+    puts("Exec output: Error", color: "red", style: 'bold');
     stdout.write(out.stderr);
   }
   completer.complete();
@@ -155,8 +166,10 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   var seconds = 0;
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (completer.isCompleted) {
-      print(' :: Done');
       timer.cancel();
+      if (seconds > 2) {
+        drawLine('magenta');
+      }
     } else {
       seconds += 1;
       if (seconds > 2) {
