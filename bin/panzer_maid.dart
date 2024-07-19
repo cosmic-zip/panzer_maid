@@ -1,6 +1,7 @@
 import 'package:panzer_maid/tinybox/panzer_utils.dart';
+import 'package:panzer_maid/tinybox/panzer_tui.dart';
 
-void main(List<String> arguments) {
-  // print(queryMaker(arguments));
+void main(List<String> arguments) async {
+  panzerMaidWelcome();
   panzerRunner(arguments);
 }

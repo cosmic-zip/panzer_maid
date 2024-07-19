@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:panzer_maid/tinybox/panzer_tui.dart';
+
 bool logger(name, origin, output) {
   var json = {
     "name": name,
@@ -14,23 +16,71 @@ bool logger(name, origin, output) {
   return true;
 }
 
-void puts(text, {String color = "none"}) {
+String puts(text,
+    {String color = "none",
+    String bgcolor = "none",
+    String style = "bold",
+    bool output = true}) {
   if (text == "") {
-    text = "Nothing to see here, check if your input are right.";
+    return "";
   }
 
-  const color_emojis = {
-    "purple": "🟣",
-    "red": "🔴",
-    "green": "🟢",
-    "yellow": "🟡",
-    "blue": "🔵",
-    "orange": "🟠",
-    "white": "⚪",
-    "black": "⚫",
+  var reset = '\x1B[0m';
+
+  const colorCodes = {
+    'black': '\x1B[30m',
+    'red': '\x1B[31m',
+    'green': '\x1B[32m',
+    'yellow': '\x1B[33m',
+    'blue': '\x1B[34m',
+    'magenta': '\x1B[35m',
+    'cyan': '\x1B[36m',
+    'white': '\x1B[37m',
+    'gray': '\x1B[90m',
   };
-  String emoji = color_emojis[color] ?? "";
-  print("\u001b[1m$emoji $text\u001b[0m");
+
+  const background_color = {
+    'bgBlack': '\x1B[40m',
+    'bgRed': '\x1B[41m',
+    'bgGreen': '\x1B[42m',
+    'bgYellow': '\x1B[43m',
+    'bgBlue': '\x1B[44m',
+    'bgMagenta': '\x1B[45m',
+    'bgCyan': '\x1B[46m',
+    'bgWhite': '\x1B[47m',
+  };
+
+  const font_style = {
+    'bold': '\x1B[1m',
+    'dim': '\x1B[2m',
+    'italic': '\x1B[3m',
+    'underline': '\x1B[4m',
+    'inverse': '\x1B[7m',
+    'hidden': '\x1B[8m',
+    'strikethrough': '\x1B[9m',
+  };
+
+  var formated_text = text;
+
+  if (colorCodes[color] != null) {
+    formated_text = "${colorCodes[color]}$formated_text";
+  }
+
+  if (background_color[bgcolor] != null) {
+    formated_text = "${background_color[bgcolor]}$formated_text";
+  }
+
+  if (font_style[style] != null) {
+    print(font_style[style]);
+    formated_text = "\x1B[1m$formated_text";
+  }
+
+  formated_text = formated_text + reset;
+
+  if (output == true) {
+    print(formated_text);
+  }
+  return formated_text;
 }
 
 Map<String, dynamic> importBank() {
@@ -47,7 +97,7 @@ Map<String, dynamic> importBank() {
 
 String queryMaker(List<String> terminalArgs) {
   if (terminalArgs.length == 0) {
-    return "invalid";
+    return "nothing";
   }
 
   final db = importBank();
@@ -82,34 +132,50 @@ String queryMaker(List<String> terminalArgs) {
     return cmd;
   }
 
-  return "out";
+  return "nothing";
 }
 
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
+  if (terminalArgs.isEmpty) {
+    completer.complete();
+    return 255;
+  }
 
-  var out = await Process.run("/bin/sh", ['-c', "sleep 3"]);
+  var query = queryMaker(terminalArgs);
+  var out = await Process.run("/bin/sh", ['-c', query]);
+  puts("\r\rExec result :: Eexecuted", color: "green", style: 'bold');
   stdout.write(out.stdout);
 
   if (out.stderr != "") {
-    puts("Error", color: "red");
+    puts("Exec output: Error", color: "red", style: 'bold');
     stdout.write(out.stderr);
   }
   completer.complete();
   return out.exitCode;
 }
 
+Future<int> internalExec(String command) async {
+  var out = await Process.run("/bin/sh", ['-c', command]);
+  stdout.write(out.stdout);
+  return out.exitCode;
+}
+
 Future<int> panzerRunner(List<String> terminalArgs) async {
   var completer = Completer<void>();
-
-  var counter = 0;
-  Timer.periodic(Duration(milliseconds: 1000), (timer) {
+  var seconds = 0;
+  Timer.periodic(Duration(seconds: 1), (timer) {
     if (completer.isCompleted) {
-      print('Done');
       timer.cancel();
+      if (seconds > 2) {
+        drawLine('magenta');
+      }
     } else {
-      counter = counter + 1;
-      stdout.write('\rThread ainda está em execução $counter');
+      seconds += 1;
+      if (seconds > 2) {
+        stdout.write(
+            "\r\rWait for it to finish. I'll give you a seconds counter: ${seconds}");
+      }
     }
   });
 
