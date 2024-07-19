@@ -101,8 +101,6 @@ String queryMaker(List<String> terminalArgs) {
   }
 
   final db = importBank();
-  // const pattern = r"\s*@@(\w+)\s*";
-
   for (final item in db["general"]) {
     if (item["name"] != terminalArgs[0]) {
       continue;
@@ -112,24 +110,18 @@ String queryMaker(List<String> terminalArgs) {
       return item["command"];
     }
 
-    String cmd = item["command"];
-
     for (final key in terminalArgs) {
       if (key.startsWith("--") || key.startsWith("-")) {
         var key_index = terminalArgs.indexOf(key);
         if (key_index + 1 >= terminalArgs.length) {
-          puts(
-              "Index out of range while searching for an value for the key: $key",
-              color: "red");
           return "Index out of range";
         }
+        // Filter and Return
         var value = terminalArgs[key_index + 1];
         var parsed_key = key.replaceAll('-', '');
-        cmd = cmd.replaceAll("@@$parsed_key", value);
+        return item["command"].replaceAll("@@$parsed_key", value);
       }
     }
-
-    return cmd;
   }
 
   return "nothing";
@@ -155,6 +147,7 @@ Future<int> rawExec(
   return out.exitCode;
 }
 
+// Dont use with panzerRunner function!
 Future<int> internalExec(String command) async {
   var out = await Process.run("/bin/sh", ['-c', command]);
   stdout.write(out.stdout);
@@ -173,8 +166,7 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
     } else {
       seconds += 1;
       if (seconds > 2) {
-        stdout.write(
-            "\r\rWait for it to finish. I'll give you a seconds counter: ${seconds}");
+        stdout.write("\r\rWait for it to finish: ${seconds}s");
       }
     }
   });
