@@ -141,6 +141,17 @@ String queryMaker(List<String> terminalArgs) {
   return "nothing";
 }
 
+Future<int> flawlessExec(terminalArgs) async {
+  puts('Reminder: Use command string inside quotes, like "command --foo bar"\n',
+      style: 'bold', color: 'yellow');
+  if (terminalArgs.length >= 2) {
+    var out = await Process.run("/bin/sh", ['-c', terminalArgs[1]]);
+    stdout.write(out.stdout);
+    return out.exitCode;
+  }
+  return 255;
+}
+
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
   if (terminalArgs.isEmpty) {
@@ -161,19 +172,6 @@ Future<int> rawExec(
   return out.exitCode;
 }
 
-/// Internal testing function, dont mix with panzerRunner
-///
-/// Revive an string [command] and executes with not tests
-/// or validation.
-Future<int> internalExec(String command) async {
-  var out = await Process.run("/bin/sh", ['-c', command]);
-  stdout.write(out.stdout);
-  return out.exitCode;
-}
-
-/// Core function to execute db.json execs and native execs.
-///
-/// It need system args like [terminalArgs]. Also, use with await.
 Future<int> panzerRunner(List<String> terminalArgs) async {
   var completer = Completer<void>();
   var seconds = 0;
@@ -192,13 +190,4 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   });
 
   return await rawExec(terminalArgs, completer);
-}
-
-Future<int> raw(terminalArgs) async {
-  puts('Use command string inside quotes, like "command --foo bar"\n',
-      style: 'bold', color: 'yellow');
-  if (terminalArgs.length >= 2) {
-    return internalExec(terminalArgs[1]);
-  }
-  return 255;
 }

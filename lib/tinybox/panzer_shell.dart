@@ -13,7 +13,7 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
       panzerMaidWelcome();
       return 0;
     case '--raw':
-      raw(terminalArgs);
+      flawlessExec(terminalArgs);
       return 0;
     default:
       return await panzerRunner(terminalArgs);
