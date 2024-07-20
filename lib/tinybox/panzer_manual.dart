@@ -50,7 +50,7 @@ void userManual(List<String> terminalArgs) {
   var db = importBank();
   var module = 'all';
   if (terminalArgs.length >= 2) module = terminalArgs[1];
-
+  drawLine('magenta');
   if (module == 'all') {
     for (final item in db['general']) {
       putsItem(item);

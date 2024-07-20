@@ -6,7 +6,6 @@ import 'package:panzer_maid/tinybox/panzer_utils.dart';
 Future<int> panzerMaidShell(List<String> terminalArgs) async {
   if (terminalArgs.isEmpty) {
     panzerMaid();
-
     return 255;
   }
   ;
