@@ -99,14 +99,13 @@ String searchKeyValue(List terminalArgs, {String key = ""}) {
   if (terminalArgs.length < 2) return "";
   if (key == "") key = terminalArgs[1];
 
-  for (final key in terminalArgs) {
-    var key_index = terminalArgs.indexOf(key);
-    if (key_index + 1 >= terminalArgs.length) {
+  for (final item in terminalArgs) {
+    var key_index = terminalArgs.indexOf(item);
+    if (key_index + 1 > terminalArgs.length) {
       return "";
     }
     // Filter and Return
-    var parsed = key.replaceAll('-', '');
-    if (parsed == key) return terminalArgs[key_index + 1];
+    if (item == key) return terminalArgs[key_index + 1];
   }
   return "";
 }

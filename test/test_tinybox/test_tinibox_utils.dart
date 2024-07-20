@@ -55,4 +55,14 @@ void test_tinibox_utils() {
       expect(await flawlessExec(test_string), equals(0));
     });
   });
+  group('searchKeyValue', () {
+    test('searchKeyValue given 2 terminal args', () async {
+      var args = ['mocked'];
+      expect(await searchKeyValue(args), equals(''));
+    });
+    test('searchKeyValue given an terminal args only', () async {
+      var args = ['mocked', '--foo', 'bar'];
+      expect(await searchKeyValue(args), equals('bar'));
+    });
+  });
 }
