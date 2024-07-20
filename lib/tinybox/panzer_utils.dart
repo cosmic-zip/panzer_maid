@@ -90,8 +90,7 @@ Map<String, dynamic> importBank() {
     Map<String, dynamic> json = jsonDecode(contents);
     return json;
   } catch (e) {
-    print(e); // Using print instead of puts, assuming puts was a typo
-    return jsonDecode('{"error": "error"}'); // Returning a valid JSON structure
+    return jsonDecode('{"error": "Error at import db"}');
   }
 }
 
@@ -99,14 +98,10 @@ String searchKeyValue(List terminalArgs, {String key = ""}) {
   if (terminalArgs.length < 2) return "";
   if (key == "") key = terminalArgs[1];
 
-  for (final key in terminalArgs) {
-    var key_index = terminalArgs.indexOf(key);
-    if (key_index + 1 >= terminalArgs.length) {
-      return "";
-    }
-    // Filter and Return
-    var parsed = key.replaceAll('-', '');
-    if (parsed == key) return terminalArgs[key_index + 1];
+  for (final item in terminalArgs) {
+    var key_index = terminalArgs.indexOf(item);
+    if (key_index + 1 > terminalArgs.length) return "";
+    if (item == key) return terminalArgs[key_index + 1];
   }
   return "";
 }
@@ -141,6 +136,17 @@ String queryMaker(List<String> terminalArgs) {
   return "nothing";
 }
 
+Future<int> flawlessExec(terminalArgs) async {
+  puts('Reminder: Use command string inside quotes, like "command --foo bar"\n',
+      style: 'bold', color: 'yellow');
+  if (terminalArgs.length >= 2) {
+    var out = await Process.run("/bin/sh", ['-c', terminalArgs[1]]);
+    stdout.write(out.stdout);
+    return out.exitCode;
+  }
+  return 255;
+}
+
 Future<int> rawExec(
     List<String> terminalArgs, Completer<void> completer) async {
   if (terminalArgs.isEmpty) {
@@ -158,13 +164,6 @@ Future<int> rawExec(
     stdout.write(out.stderr);
   }
   completer.complete();
-  return out.exitCode;
-}
-
-// Dont use with panzerRunner function!
-Future<int> internalExec(String command) async {
-  var out = await Process.run("/bin/sh", ['-c', command]);
-  stdout.write(out.stdout);
   return out.exitCode;
 }
 

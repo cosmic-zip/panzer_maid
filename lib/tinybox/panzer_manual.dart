@@ -1,6 +1,7 @@
 import 'package:panzer_maid/tinybox/panzer_tui.dart';
 import 'package:panzer_maid/tinybox/panzer_utils.dart';
 
+/// Give meaning to common [arg] words if possible
 String argumentMeanings(String arg) {
   var argumentMeanings = {
     'dns': 'set domain name',
@@ -44,7 +45,8 @@ void putsItem(Map<String, dynamic> item) {
   puts("Description: ${item["description"]}", color: 'white');
 }
 
-void userManual(List terminalArgs) {
+/// User manual for db.json execs and native execs.
+void userManual(List<String> terminalArgs) {
   var db = importBank();
   var module = 'all';
   if (terminalArgs.length >= 2) module = terminalArgs[1];
