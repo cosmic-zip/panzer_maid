@@ -86,19 +86,28 @@ Future<int> mkdir(String path) async {
 }
 
 Future<int> rm(String path) async {
-  final directory = Directory(path);
+  final fileSystemEntity = FileSystemEntity.typeSync(path);
 
   try {
-    if (await directory.exists()) {
-      await directory.delete(recursive: true);
-      print('Directory removed successfully.');
-      return stdint('ok');
-    } else {
-      print('Directory does not exist.');
+    if (fileSystemEntity == FileSystemEntityType.directory) {
+      final directory = Directory(path);
+      if (await directory.exists()) {
+        await directory.delete(recursive: true);
+        return stdint('ok');
+      }
       return stdint('fail');
     }
+
+    if (fileSystemEntity == FileSystemEntityType.file) {
+      final file = File(path);
+      if (await file.exists()) {
+        await file.delete();
+        return stdint('ok');
+      }
+      return stdint('fail');
+    }
+    return stdint('fail');
   } catch (e) {
-    print('An error occurred: $e');
     return stdint('error');
   }
 }
