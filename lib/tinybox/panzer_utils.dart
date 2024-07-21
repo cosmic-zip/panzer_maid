@@ -2,8 +2,6 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:panzer_maid/tinybox/panzer_tui.dart';
-
 bool logger(name, origin, output) {
   var json = {
     "name": name,
@@ -173,9 +171,6 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   Timer.periodic(Duration(seconds: 1), (timer) {
     if (completer.isCompleted) {
       timer.cancel();
-      if (seconds > 2) {
-        drawLine('magenta');
-      }
     } else {
       seconds += 1;
       if (seconds > 2) {
