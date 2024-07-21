@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:panzer_maid/tinybox/utils.dart';
 
@@ -149,5 +150,34 @@ int ls(path) {
   return tree(path, depth: 0);
 }
 
-//DONE touch cat grep ping mkdir rm tree ls
-// /dev/zero /dev/random ip dd
+Future<int> deviceZero(String filePath, String size, int count) async {
+  try {
+    int dataSize;
+    switch (size) {
+      case 'B':
+        dataSize = 1;
+        break;
+      case 'M':
+        dataSize = 1024 * 1024;
+        break;
+      case 'G':
+        dataSize = 1024 * 1024 * 1024;
+        break;
+      case 'T':
+        dataSize = 1024 * 1024 * 1024 * 1024;
+        break;
+      default:
+        return stdint('fail');
+    }
+
+    Uint8List data = Uint8List(dataSize * count);
+    await File(filePath).writeAsBytes(data, mode: FileMode.writeOnly);
+    return stdint('ok');
+  } catch (e) {
+    return stdint('error');
+  }
+}
+
+
+
+//DONE touch cat grep ping mkdir rm tree ls dd
