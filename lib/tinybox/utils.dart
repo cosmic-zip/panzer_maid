@@ -14,6 +14,18 @@ bool logger(name, origin, output) {
   return true;
 }
 
+/// Options fail → 0; error → 255, ok → 0
+int stdint(re) {
+  switch (re) {
+    case 'fail':
+      return 1;
+    case 'error':
+      return 255;
+    default:
+      return 0;
+  }
+}
+
 String puts(text,
     {String color = "none",
     String bgcolor = "none",

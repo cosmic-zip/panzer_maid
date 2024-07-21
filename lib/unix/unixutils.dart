@@ -7,9 +7,9 @@ Future<int> touch(String file) async {
   try {
     final file = File('example.txt');
     await file.writeAsString('');
-    return 0;
+    return stdint('ok');
   } catch (e) {
-    return 1;
+    return stdint('error');
   }
 }
 
@@ -46,7 +46,7 @@ Future<List<String>> grep(String filePath, String pattern) async {
   return matchedLines;
 }
 
-Future<void> ping(String address) async {
+Future<int> ping(String address) async {
   try {
     final Stopwatch stopwatch = Stopwatch()..start();
     final List<InternetAddress> result = await InternetAddress.lookup(address);
@@ -55,31 +55,54 @@ Future<void> ping(String address) async {
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       puts('$address successful. Latency: ${stopwatch.elapsedMilliseconds} ms',
           color: 'white');
+      return stdint('ok');
     } else {
       puts('Ping to $address failed.', color: 'red');
+      return stdint('fail');
     }
   } catch (e) {
     puts('An error occurred: $e', color: 'red');
+    return stdint('error');
   }
 }
 
-Future<void> mkdir(String path) async {
+Future<int> mkdir(String path) async {
   if (path == '') path = './';
   final directory = Directory(path);
 
   try {
     if (await directory.exists()) {
       print('Directory already exists.');
+      return stdint('ok');
     } else {
       await directory.create(recursive: true);
       print('Directory created successfully.');
+      return stdint('fail');
     }
   } catch (e) {
     print('An error occurred: $e');
+    return stdint('error');
+  }
+}
+
+Future<int> rm(String path) async {
+  final directory = Directory(path);
+
+  try {
+    if (await directory.exists()) {
+      await directory.delete(recursive: true);
+      print('Directory removed successfully.');
+      return stdint('ok');
+    } else {
+      print('Directory does not exist.');
+      return stdint('fail');
+    }
+  } catch (e) {
+    print('An error occurred: $e');
+    return stdint('error');
   }
 }
 
 
-
-//DONE touch cat grep ping mkdir
-// ls rm /dev/zero /dev/random ip
+//DONE touch cat grep ping mkdir rm
+// ls  /dev/zero /dev/random ip
