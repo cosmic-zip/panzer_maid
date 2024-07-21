@@ -1,7 +1,7 @@
-import 'package:panzer_maid/tinybox/panzer_manual.dart';
-import 'package:panzer_maid/tinybox/panzer_status.dart';
-import 'package:panzer_maid/tinybox/panzer_tui.dart';
-import 'package:panzer_maid/tinybox/panzer_utils.dart';
+import 'package:panzer_maid/tinybox/manual.dart';
+import 'package:panzer_maid/tinybox/status.dart';
+import 'package:panzer_maid/tinybox/tui.dart';
+import 'package:panzer_maid/tinybox/utils.dart';
 
 Future<int> panzerMaidShell(List<String> terminalArgs) async {
   if (terminalArgs.isEmpty) {

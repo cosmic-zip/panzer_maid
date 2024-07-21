@@ -1,5 +1,5 @@
-import 'package:panzer_maid/tinybox/panzer_tui.dart';
-import 'package:panzer_maid/tinybox/panzer_utils.dart';
+import 'package:panzer_maid/tinybox/tui.dart';
+import 'package:panzer_maid/tinybox/utils.dart';
 
 /// Give meaning to common [arg] words if possible
 String argumentMeanings(String arg) {

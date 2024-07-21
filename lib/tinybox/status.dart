@@ -1,4 +1,4 @@
-import 'package:panzer_maid/tinybox/panzer_utils.dart';
+import 'package:panzer_maid/tinybox/utils.dart';
 
 String slim(String symbol, String key, String value) {
   return "\u001b[1m\u001b[35m$symbol \ $key ::\u001b[0m $value\u001b[0m";

@@ -1,4 +1,4 @@
-import 'package:panzer_maid/tinybox/panzer_utils.dart';
+import 'package:panzer_maid/tinybox/utils.dart';
 import 'package:test/test.dart';
 
 void test_tinibox_utils() {
