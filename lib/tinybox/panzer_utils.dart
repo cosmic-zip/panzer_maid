@@ -85,8 +85,7 @@ Map<String, dynamic> importBank() {
   try {
     final file = File('db/db.json');
     String contents = file.readAsStringSync();
-    Map<String, dynamic> json = jsonDecode(contents);
-    return json;
+    return jsonDecode(contents);
   } catch (e) {
     return jsonDecode('{"error": "Error at import db"}');
   }
@@ -145,7 +144,7 @@ Future<int> flawlessExec(terminalArgs) async {
   return 255;
 }
 
-Future<int> rawExec(
+Future<int> terminalShellExec(
     List<String> terminalArgs, Completer<void> completer) async {
   if (terminalArgs.isEmpty) {
     completer.complete();
@@ -179,5 +178,5 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
     }
   });
 
-  return await rawExec(terminalArgs, completer);
+  return await terminalShellExec(terminalArgs, completer);
 }

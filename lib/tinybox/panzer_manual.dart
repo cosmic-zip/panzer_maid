@@ -30,8 +30,8 @@ void putsItem(Map<String, dynamic> item) {
   if (item.isEmpty) return;
 
   puts("Name: ${item["name"]}", color: 'magenta', style: 'bold');
-  if (true)
-    puts("Exec build: ${item["command"]}", color: 'white', style: 'bold');
+  // if (true)
+  // puts("Exec build: ${item["command"]}", color: 'white', style: 'bold');
 
   var string_args = [];
   for (final String arg in item['command'].split(" ")) {
@@ -43,14 +43,16 @@ void putsItem(Map<String, dynamic> item) {
     }
   }
   puts("Description: ${item["description"]}", color: 'white');
+  print(" ");
 }
 
 /// User manual for db.json execs and native execs.
 void userManual(List<String> terminalArgs) {
   var db = importBank();
   var module = 'all';
+
   if (terminalArgs.length >= 2) module = terminalArgs[1];
-  drawLine('magenta');
+
   if (module == 'all') {
     for (final item in db['general']) {
       putsItem(item);
