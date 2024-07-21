@@ -103,6 +103,42 @@ Future<int> rm(String path) async {
   }
 }
 
+int tree(String path, {int depth = 0}) {
+  final directory = Directory(path);
 
-//DONE touch cat grep ping mkdir rm
-// ls  /dev/zero /dev/random ip
+  try {
+    if (!directory.existsSync()) {
+      print('Directory does not exist.');
+      return stdint('fail');
+    }
+
+    final entities = directory.listSync();
+
+    for (var entity in entities) {
+      final name = entity.uri.pathSegments.last;
+      final prefix =
+          depth > 0 ? '  ' * depth : ''; // Only add indentation if depth > 0
+
+      if (entity is Directory) {
+        print('$prefix$name/');
+        if (depth > 0) {
+          tree(entity.path, depth: depth + 1);
+        }
+      } else {
+        print('$prefix$name');
+      }
+    }
+
+    return stdint('ok');
+  } catch (e) {
+    print('An error occurred: $e');
+    return stdint('error');
+  }
+}
+
+int ls(path) {
+  return tree(path, depth: 0);
+}
+
+//DONE touch cat grep ping mkdir rm tree ls
+// /dev/zero /dev/random ip dd
