@@ -178,6 +178,29 @@ Future<int> deviceZero(String filePath, String size, int count) async {
   }
 }
 
+int systeminfo() {
+  final os = Platform.operatingSystem;
+  final osVersion = Platform.operatingSystemVersion;
+  final dartVersion = Platform.version;
+  final numberOfProcessors = Platform.numberOfProcessors.toString();
+  final executable = Platform.executable;
+  final resolvedExecutable = Platform.resolvedExecutable;
+  final script = Platform.script.toString();
+  final environment = Platform.environment.toString();
+
+  print('''
+    'Operating System': $os,
+    'OS Version': $osVersion,
+    'Dart Version': $dartVersion,
+    'Number of Processors': $numberOfProcessors,
+    'Executable': $executable,
+    'Resolved Executable': $resolvedExecutable,
+    'Script': $script,
+    'Environment Variables': $environment
+  ''');
+
+  return stdint('ok');
+}
 
 
 //DONE touch cat grep ping mkdir rm tree ls dd
