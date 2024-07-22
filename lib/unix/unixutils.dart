@@ -4,9 +4,13 @@ import 'dart:typed_data';
 
 import 'package:panzer_maid/tinybox/utils.dart';
 
-Future<int> touch(String file) async {
+Future<int> touch(List<String> terminalArgs) async {
   try {
-    final file = File('example.txt');
+    if (terminalArgs.length <= 2) {
+      return stdint('fail');
+    }
+
+    final file = File(terminalArgs[0]);
     await file.writeAsString('');
     return stdint('ok');
   } catch (e) {
@@ -14,19 +18,30 @@ Future<int> touch(String file) async {
   }
 }
 
-Future<String> cat(String filePath) async {
+Future<int> cat(List<String> terminalArgs) async {
   try {
-    final file = File(filePath);
+    if (terminalArgs.length <= 2) {
+      return stdint('fail');
+    }
+
+    final file = File(terminalArgs[0]);
     String contents = await file.readAsString();
     print(contents);
-    return contents;
+    return stdint('ok');
   } catch (e) {
     print('An error occurred: $e');
-    return '';
+    return stdint('error');
   }
 }
 
-Future<List<String>> grep(String filePath, String pattern) async {
+Future<int> grep(List<String> terminalArgs) async {
+  if (terminalArgs.length <= 2) {
+    return stdint('fail');
+  }
+
+  String filePath = searchKeyValue(terminalArgs, key: 'file');
+  String pattern = searchKeyValue(terminalArgs, key: 'pattern');
+
   final file = File(filePath);
   List<String> matchedLines = [];
 
@@ -39,15 +54,22 @@ Future<List<String>> grep(String filePath, String pattern) async {
     }
   } catch (e) {
     print('An error occurred: $e');
+    return stdint('error');
   }
 
   for (final item in matchedLines) {
     print(item);
   }
-  return matchedLines;
+  return stdint('ok');
 }
 
-Future<int> ping(String address) async {
+Future<int> ping(List<String> terminalArgs) async {
+  if (terminalArgs.length <= 2) {
+    return stdint('fail');
+  }
+
+  String address = terminalArgs[1];
+
   try {
     final Stopwatch stopwatch = Stopwatch()..start();
     final List<InternetAddress> result = await InternetAddress.lookup(address);
@@ -67,7 +89,13 @@ Future<int> ping(String address) async {
   }
 }
 
-Future<int> mkdir(String path) async {
+Future<int> mkdir(List<String> terminalArgs) async {
+  if (terminalArgs.length <= 2) {
+    return stdint('fail');
+  }
+
+  String path = terminalArgs[1];
+
   if (path == '') path = './';
   final directory = Directory(path);
 
@@ -86,7 +114,14 @@ Future<int> mkdir(String path) async {
   }
 }
 
-Future<int> rm(String path) async {
+Future<int> rm(List<String> terminalArgs) async {
+  if (terminalArgs.length <= 2) {
+    return stdint('fail');
+  }
+
+  String path = terminalArgs[1];
+  if (path == '') path = './';
+
   final fileSystemEntity = FileSystemEntity.typeSync(path);
 
   try {
@@ -113,10 +148,28 @@ Future<int> rm(String path) async {
   }
 }
 
-int tree(String path, {int depth = 0}) {
-  final directory = Directory(path);
-
+int tree(List<String> terminalArgs, {int depth = 0}) {
   try {
+    String paths = "./";
+
+    var len = terminalArgs.length;
+    switch (len) {
+      case 0:
+        return stdint('fail');
+      case 2:
+        paths = terminalArgs[1];
+      case 3:
+        {
+          paths = searchKeyValue(terminalArgs, key: 'path');
+          depth = int.parse(searchKeyValue(terminalArgs, key: 'depth'));
+        }
+
+      default:
+        return stdint('fail');
+    }
+
+    final directory = Directory(paths);
+
     if (!directory.existsSync()) {
       print('Directory does not exist.');
       return stdint('fail');
@@ -132,7 +185,7 @@ int tree(String path, {int depth = 0}) {
       if (entity is Directory) {
         print('$prefix$name/');
         if (depth > 0) {
-          tree(entity.path, depth: depth + 1);
+          tree(terminalArgs, depth: depth + 1);
         }
       } else {
         print('$prefix$name');
@@ -146,8 +199,11 @@ int tree(String path, {int depth = 0}) {
   }
 }
 
-int ls(path) {
-  return tree(path, depth: 0);
+int ls(List<String> terminalArgs) {
+  if (terminalArgs.length == 1) {
+    return tree(terminalArgs);
+  }
+  return stdint('fail');
 }
 
 Future<int> deviceZero(String filePath, String size, int count) async {
@@ -201,6 +257,3 @@ int systeminfo() {
 
   return stdint('ok');
 }
-
-
-//DONE touch cat grep ping mkdir rm tree ls dd
