@@ -1,4 +1,4 @@
-const DATABASE = 'db/plugins.json';
+const DATABASE = 'db/db.json';
 
 const STANDARD_ARGUMENTS = {
   'dns': 'set domain name',

@@ -158,6 +158,17 @@ Future<int> flawlessExec(terminalArgs) async {
   return 255;
 }
 
+Future<int> pkg() async {
+  var package_list = importDatabaseJson()['deps'];
+  var not_instelled = [];
+  for (final pkg in package_list) {
+    var out = flawlessExec(["--flawless", "sudo apt install $pkg -y"]);
+    if (out != 0) not_instelled.add(pkg);
+  }
+  if (not_instelled.isEmpty) return stdint('ok');
+  return stdint('fail');
+}
+
 Future<int> terminalShellExec(
     List<String> terminalArgs, Completer<void> completer) async {
   if (terminalArgs.isEmpty) {

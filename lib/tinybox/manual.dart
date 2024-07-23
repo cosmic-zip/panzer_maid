@@ -28,7 +28,7 @@ void putsItem(Map<String, dynamic> item) {
 
 /// User manual for db.json execs and native execs.
 int userManual(List<String> terminalArgs) {
-  var db = importBank();
+  var db = importDatabaseJson();
   var module = 'all';
 
   if (terminalArgs.length >= 2) module = terminalArgs[1];
@@ -43,4 +43,5 @@ int userManual(List<String> terminalArgs) {
       if (item['name'] == module) putsItem(item);
     }
   }
+  return stdint('ok');
 }

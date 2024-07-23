@@ -20,6 +20,8 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
       return panzerStatus();
     case '--raw':
       return flawlessExec(terminalArgs);
+    case '--install-deps':
+      return pkg();
     default:
       return await panzerRunner(terminalArgs);
   }

@@ -25,22 +25,21 @@ void test_tinibox_utils() {
     });
   });
 
-  group('importBank', () {
-    test('Import db.json and test its contents', () async {
-      var db = importBank();
+  group('importDatabaseJson', () {
+    test('Import db.json and check the contents', () async {
+      var db = importDatabaseJson();
 
       var mocked_out = {
+        "name": "nuke.hd",
+        "command": "shred -vzn 7 @@device",
         "description":
             "Securely deletes and overwrites the contents of a device seven times",
-        "name": "nuke.hd",
-        "command": "shred -vzn 7 @@device"
       };
 
       expect(await db['general'][0], equals(mocked_out));
     });
     test('Import db.json and search for invalid fields', () async {
-      var db = importBank();
-
+      var db = importDatabaseJson();
       expect(await db['REEEE'], equals(null));
     });
   });
