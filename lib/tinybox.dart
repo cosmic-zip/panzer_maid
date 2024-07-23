@@ -1,6 +1,6 @@
 import 'package:panzer_maid/tinybox/shell.dart';
 import 'package:panzer_maid/tinybox/utils.dart';
-import 'package:panzer_maid/unix/unixutils.dart';
+import 'package:panzer_maid/tinybox/unixutils.dart';
 
 class TinyBoxFacede {
   List<String> terminalArgs = [];
@@ -17,8 +17,8 @@ class TinyBoxFacede {
     return flawlessExec(this.terminalArgs);
   }
 
-  Future<int> tinybox() {
+  Future<int> unixBox() {
     if (terminalArgs.isEmpty) stdint('fail');
-    return tinyBoxExec(this.terminalArgs, this.terminalArgs[0]);
+    return unixBoxExec(this.terminalArgs, this.terminalArgs[0]);
   }
 }

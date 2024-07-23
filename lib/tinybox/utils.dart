@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:panzer_maid/tinybox/consts.dart';
+
 bool logger(name, origin, output) {
   var json = {
     "name": name,
@@ -93,9 +95,9 @@ String puts(text,
   return formated_text;
 }
 
-Map<String, dynamic> importBank() {
+Map<String, dynamic> importDatabaseJson() {
   try {
-    final file = File('db/db.json');
+    final file = File(DATABASE);
     String contents = file.readAsStringSync();
     return jsonDecode(contents);
   } catch (e) {
@@ -118,7 +120,7 @@ String searchKeyValue(List terminalArgs, {String key = ""}) {
 String queryMaker(List<String> terminalArgs) {
   if (terminalArgs.length == 0) return "nothing";
 
-  final db = importBank();
+  final db = importDatabaseJson();
   for (final item in db["general"]) {
     if (item["name"] != terminalArgs[0]) {
       continue;

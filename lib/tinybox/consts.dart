@@ -1,3 +1,5 @@
+const DATABASE = 'db/plugins.json';
+
 const STANDARD_ARGUMENTS = {
   'dns': 'set domain name',
   'target': 'set IP or domain name',

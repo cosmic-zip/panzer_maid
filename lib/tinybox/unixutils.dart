@@ -262,7 +262,7 @@ Future<int> systeminfo(args) async {
   return stdint('ok');
 }
 
-Future<int> tinyBoxExec(List<String> terminalArgs, String option) async {
+Future<int> unixBoxExec(List<String> terminalArgs, String option) async {
   final Map tinyBoxCommands = {
     'touch': (terminalArgs) => touch(terminalArgs),
     'cat': (terminalArgs) => cat(terminalArgs),
