@@ -148,7 +148,7 @@ Future<int> rm(List<String> terminalArgs) async {
   }
 }
 
-int tree(List<String> terminalArgs, {int depth = 0}) {
+Future<int> tree(List<String> terminalArgs, {int depth = 0}) async {
   try {
     String paths = "./";
 
@@ -199,15 +199,19 @@ int tree(List<String> terminalArgs, {int depth = 0}) {
   }
 }
 
-int ls(List<String> terminalArgs) {
+Future<int> ls(List<String> terminalArgs) async {
   if (terminalArgs.length == 1) {
     return tree(terminalArgs);
   }
   return stdint('fail');
 }
 
-Future<int> deviceZero(String filePath, String size, int count) async {
+Future<int> deviceZero(List<String> terminalArgs) async {
   try {
+    String filePath = searchKeyValue(terminalArgs, key: 'filePath');
+    String size = searchKeyValue(terminalArgs, key: 'size');
+    int count = int.parse(searchKeyValue(terminalArgs, key: 'count'));
+
     int dataSize;
     switch (size) {
       case 'B':
@@ -234,7 +238,7 @@ Future<int> deviceZero(String filePath, String size, int count) async {
   }
 }
 
-int systeminfo() {
+Future<int> systeminfo(args) async {
   final os = Platform.operatingSystem;
   final osVersion = Platform.operatingSystemVersion;
   final dartVersion = Platform.version;
@@ -256,4 +260,23 @@ int systeminfo() {
   ''');
 
   return stdint('ok');
+}
+
+Future<int> tinyBoxExec(List<String> terminalArgs, String option) async {
+  final Map tinyBoxCommands = {
+    'touch': (terminalArgs) => touch(terminalArgs),
+    'cat': (terminalArgs) => cat(terminalArgs),
+    'grep': (terminalArgs) => grep(terminalArgs),
+    'ping': (terminalArgs) => ping(terminalArgs),
+    'mkdir': (terminalArgs) => mkdir(terminalArgs),
+    'rm': (terminalArgs) => rm(terminalArgs),
+    'tree': (terminalArgs) => tree(terminalArgs),
+    'ls': (terminalArgs) => ls(terminalArgs),
+    'deviceZero': (terminalArgs) => deviceZero(terminalArgs),
+    'systeminfo': (terminalArgs) => systeminfo(terminalArgs),
+  };
+
+  final selection = tinyBoxCommands[option];
+  if (selection != null) return await selection(terminalArgs);
+  return stdint('fail');
 }
