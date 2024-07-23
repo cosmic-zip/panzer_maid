@@ -1,7 +1,7 @@
 import 'package:panzer_maid/tinybox/utils.dart';
 import 'package:test/test.dart';
 
-void test_tinibox_utils() {
+void test_tinybox_utils() {
   group('logger', () {
     test('Test logger function', () {
       var log = logger("name", "origin", "output");

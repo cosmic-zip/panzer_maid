@@ -69,30 +69,30 @@ String puts(text,
     'underline': '\x1B[4m',
     'inverse': '\x1B[7m',
     'hidden': '\x1B[8m',
-    'strikethrough': '\x1B[9m',
+    'strike': '\x1B[9m',
   };
 
-  var formated_text = text;
+  var formatted_text = text;
 
   if (colorCodes[color] != null) {
-    formated_text = "${colorCodes[color]}$formated_text";
+    formatted_text = "${colorCodes[color]}$formatted_text";
   }
 
   if (background_color[bgcolor] != null) {
-    formated_text = "${background_color[bgcolor]}$formated_text";
+    formatted_text = "${background_color[bgcolor]}$formatted_text";
   }
 
   if (font_style[style] != null) {
     print(font_style[style]);
-    formated_text = "\x1B[1m$formated_text";
+    formatted_text = "\x1B[1m$formatted_text";
   }
 
-  formated_text = formated_text + reset;
+  formatted_text = formatted_text + reset;
 
   if (output == true) {
-    print(formated_text);
+    print(formatted_text);
   }
-  return formated_text;
+  return formatted_text;
 }
 
 Map<String, dynamic> importDatabaseJson() {
@@ -160,12 +160,12 @@ Future<int> flawlessExec(terminalArgs) async {
 
 Future<int> pkg() async {
   var package_list = importDatabaseJson()['deps'];
-  var not_instelled = [];
+  var not_installed = [];
   for (final pkg in package_list) {
     var out = flawlessExec(["--flawless", "sudo apt install $pkg -y"]);
-    if (out != 0) not_instelled.add(pkg);
+    if (out != 0) not_installed.add(pkg);
   }
-  if (not_instelled.isEmpty) return stdint('ok');
+  if (not_installed.isEmpty) return stdint('ok');
   return stdint('fail');
 }
 
@@ -178,7 +178,7 @@ Future<int> terminalShellExec(
 
   var query = queryMaker(terminalArgs);
   var out = await Process.run("/bin/sh", ['-c', query]);
-  puts("\r\rExec result :: Eexecuted", color: "green", style: 'bold');
+  puts("\r\rExec result :: Executed", color: "green", style: 'bold');
   stdout.write(out.stdout);
 
   if (out.stderr != "") {

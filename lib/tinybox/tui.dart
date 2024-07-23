@@ -21,7 +21,7 @@ String tuiNumbPairs() {
 Map<String, int> windowSize() {
   return {
     "width": stdout.terminalColumns,
-    "heidth": stdout.terminalLines,
+    "height": stdout.terminalLines,
   };
 }
 

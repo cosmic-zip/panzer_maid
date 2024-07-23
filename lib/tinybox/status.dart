@@ -14,7 +14,7 @@ int panzerStatus() {
   var shell = slim("❖", "Shell", "Panzer Maid Shell");
   var desktop_environment = slim("🗗", "UI", "Native");
 
-  // Dont even touch! Each space count in the final image
+  // Don't even touch! Each space count in the final image
   var maid = '''
 
         [?25l[0m [38;2;0;0;0m                      [38;2;52;62;50m▅[38;2;31;39;27m▁  [0m [38;2;152;158;151m▂[38;2;226;227;227m▂[38;2;245;245;245m▂[38;2;240;241;240m▂[38;2;226;229;229m▂[38;2;204;213;207m▁[0m [38;2;0;0;0m               [0m
