@@ -25,7 +25,7 @@ Map<String, int> windowSize() {
   };
 }
 
-void headerBoxed(String message, {String symbol = "█"}) {
+int headerBoxed(String message, {String symbol = "█"}) {
   int size = stdout.terminalColumns;
 
   if (message.length >= size) {
@@ -38,6 +38,7 @@ void headerBoxed(String message, {String symbol = "█"}) {
       "\n");
   puts(symbol * size, color: 'magenta', style: 'bold', output: true) +
       ("\n" * 2);
+  return stdint('ok');
 }
 
 void drawLine(String color) {
@@ -45,7 +46,7 @@ void drawLine(String color) {
   puts("█" * size, color: color);
 }
 
-void panzerMaidWelcome() {
+int panzerMaidWelcome() {
   int size = stdout.terminalColumns;
   var msg = '''
   ┏━━━┓━━━━━━━━━━━━━━━━━━━━━┏━┓┏━┓━━━━━━━━━┏┓
@@ -64,6 +65,7 @@ void panzerMaidWelcome() {
     stdout.write(out);
   }
   puts("█" * size + ("\n" * 2), color: "magenta");
+  return stdint('ok');
 }
 
 void textBoxed() {

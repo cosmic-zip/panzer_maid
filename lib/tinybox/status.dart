@@ -4,7 +4,7 @@ String slim(String symbol, String key, String value) {
   return "\u001b[1m\u001b[35m$symbol \ $key ::\u001b[0m $value\u001b[0m";
 }
 
-void panzerStatus() {
+int panzerStatus() {
   var cpu_load = slim("🗖", "Cpu load", "");
   var mem_total = slim("▼", "Total memory", "");
   var mem_free = slim("▲", "Free memory", "");
@@ -47,9 +47,10 @@ void panzerStatus() {
     ''';
 
   print(maid);
+  return stdint('ok');
 }
 
-void panzerMaid() {
+int panzerMaid() {
   var panzer = '''
 
   [?25l[0m [38;2;0;0;0m                                                                                                                               [0m
@@ -98,4 +99,5 @@ void panzerMaid() {
   ''';
 
   print(panzer);
+  return stdint('ok');
 }

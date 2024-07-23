@@ -11,20 +11,15 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
   var option = terminalArgs[0];
   switch (option) {
     case '--help' || '-h':
-      userManual(terminalArgs);
-      return 0;
+      return userManual(terminalArgs);
     case '--well' || '-w':
-      panzerMaidWelcome();
-      return 0;
+      return panzerMaidWelcome();
     case '--panzer':
-      panzerMaid();
-      return 0;
+      return panzerMaid();
     case '--status':
-      panzerStatus();
-      return 0;
+      return panzerStatus();
     case '--raw':
-      flawlessExec(terminalArgs);
-      return 0;
+      return flawlessExec(terminalArgs);
     default:
       return await panzerRunner(terminalArgs);
   }

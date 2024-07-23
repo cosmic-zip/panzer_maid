@@ -27,7 +27,7 @@ void putsItem(Map<String, dynamic> item) {
 }
 
 /// User manual for db.json execs and native execs.
-void userManual(List<String> terminalArgs) {
+int userManual(List<String> terminalArgs) {
   var db = importBank();
   var module = 'all';
 

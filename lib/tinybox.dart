@@ -2,10 +2,10 @@ import 'package:panzer_maid/tinybox/shell.dart';
 import 'package:panzer_maid/tinybox/utils.dart';
 import 'package:panzer_maid/unix/unixutils.dart';
 
-class TinyBox {
+class TinyBoxFacede {
   List<String> terminalArgs = [];
 
-  TinyBox();
+  TinyBoxFacede();
 
   Future<int> exec() async {
     if (terminalArgs.isEmpty) stdint('fail');
