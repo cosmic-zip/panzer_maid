@@ -21,4 +21,8 @@ class TinyBoxFacede {
     if (terminalArgs.isEmpty) stdint('fail');
     return unixBoxExec(this.terminalArgs, this.terminalArgs[0]);
   }
+
+  Future<int> pkgManager() {
+    return pkg();
+  }
 }
