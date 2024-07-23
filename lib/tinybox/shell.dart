@@ -8,7 +8,6 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
     panzerMaid();
     return 255;
   }
-  ;
   var option = terminalArgs[0];
   switch (option) {
     case '--help' || '-h':
