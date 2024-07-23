@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:panzer_maid/tinybox/consts.dart';
+
 bool logger(name, origin, output) {
   var json = {
     "name": name,
@@ -12,6 +14,18 @@ bool logger(name, origin, output) {
 
   print(json);
   return true;
+}
+
+/// Options fail → 0; error → 255, ok → 0
+int stdint(re) {
+  switch (re) {
+    case 'fail':
+      return 1;
+    case 'error':
+      return 255;
+    default:
+      return 0;
+  }
 }
 
 String puts(text,
@@ -81,9 +95,9 @@ String puts(text,
   return formated_text;
 }
 
-Map<String, dynamic> importBank() {
+Map<String, dynamic> importDatabaseJson() {
   try {
-    final file = File('db/db.json');
+    final file = File(DATABASE);
     String contents = file.readAsStringSync();
     return jsonDecode(contents);
   } catch (e) {
@@ -106,7 +120,7 @@ String searchKeyValue(List terminalArgs, {String key = ""}) {
 String queryMaker(List<String> terminalArgs) {
   if (terminalArgs.length == 0) return "nothing";
 
-  final db = importBank();
+  final db = importDatabaseJson();
   for (final item in db["general"]) {
     if (item["name"] != terminalArgs[0]) {
       continue;
@@ -142,6 +156,17 @@ Future<int> flawlessExec(terminalArgs) async {
     return out.exitCode;
   }
   return 255;
+}
+
+Future<int> pkg() async {
+  var package_list = importDatabaseJson()['deps'];
+  var not_instelled = [];
+  for (final pkg in package_list) {
+    var out = flawlessExec(["--flawless", "sudo apt install $pkg -y"]);
+    if (out != 0) not_instelled.add(pkg);
+  }
+  if (not_instelled.isEmpty) return stdint('ok');
+  return stdint('fail');
 }
 
 Future<int> terminalShellExec(

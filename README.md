@@ -10,6 +10,8 @@ Panzer_Maid is your extremely useful and versatile cybersecurity companion app f
 
 > Panzer_Maid is not an alias for other tools but has a curated version of the Maidz database with useful Linux automations.
 
+## UNIX AND MSDOX MODES
+
 **Rewrite every thing again, but why?**
 
 Long story short: In 2019, I had to install Arch Linux on my laptop with LUKS. I decided to write a shell script to automate most of the installation, packages, configurations, etc. The script grew big, and I began to improve it. I ported it to Python, later to C (although I failed, I learned a bit of C), then to Ruby (failed again, but learned Ruby and something about Rails), and later to Rust. Rust was amazing, but I needed to work with Python. Keeping such a giant stack of technologies and programming languages was killing my performance in all of them.
