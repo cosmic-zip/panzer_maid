@@ -4,6 +4,7 @@ import 'package:panzer_maid/tinybox/unixutils.dart';
 
 class TinyBoxFacade {
   List<String> terminalArgs = [];
+  String command = '';
 
   TinyBoxFacade();
 
@@ -14,6 +15,7 @@ class TinyBoxFacade {
 
   Future<int> flawless() {
     if (terminalArgs.isEmpty) stdint('fail');
+    if (!command.isEmpty) flawlessExec(["--flaw", command]); 
     return flawlessExec(this.terminalArgs);
   }
 
