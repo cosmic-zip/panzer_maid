@@ -1,5 +1,5 @@
-import 'test_tinybox/test_tinibox_utils.dart';
+import 'test_tinybox/test_tinybox_utils.dart';
 
 void main() {
-  test_tinibox_utils();
+  test_tinybox_utils();
 }
