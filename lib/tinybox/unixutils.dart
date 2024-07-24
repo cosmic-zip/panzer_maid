@@ -30,7 +30,7 @@ Future<int> cat(List<String> terminalArgs) async {
 }
 
 Future<int> grep(List<String> terminalArgs) async {
-  if (terminalArgs.length <= 2) return stdint('fail');
+  if (terminalArgs.length <= 4) return stdint('fail');
 
   String filePath = searchKeyValue(terminalArgs, key: 'file');
   String pattern = searchKeyValue(terminalArgs, key: 'pattern');
@@ -239,7 +239,7 @@ Future<int> systeminfo(args) async {
   final executable = Platform.executable;
   final resolvedExecutable = Platform.resolvedExecutable;
   final script = Platform.script.toString();
-  final environment = Platform.environment.toString();
+  final environment = ""; //Platform.environment.toString();
 
   print('''
     'Operating System': $os,

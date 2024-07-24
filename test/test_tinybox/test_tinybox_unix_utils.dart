@@ -32,7 +32,7 @@ void test_unix_utils() {
         terminalArgs: [
           'grep',
           '--file',
-          './test/grepme.txt',
+          'test/artifacts/grepme.txt',
           '--partern',
           'こんにちは'
         ],
@@ -41,10 +41,17 @@ void test_unix_utils() {
       expect(result, equals(0));
     });
 
+    test('executes cat command with arguments', () async {
+      TinyBoxFacade someTinyBox = TinyBoxFacade(
+        terminalArgs: ['cat', 'test/artifacts/grepme.txt'],
+      );
+      int result = await someTinyBox.unixBox();
+      expect(result, equals(0));
+    });
+
     test('executes systeminfo command with arguments', () async {
       TinyBoxFacade someTinyBox = TinyBoxFacade(
         terminalArgs: ['systeminfo'],
-        command: 'systeminfo',
       );
       int result = await someTinyBox.unixBox();
       expect(result, equals(0));

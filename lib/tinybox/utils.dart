@@ -106,15 +106,18 @@ Map<String, dynamic> importDatabaseJson() {
 }
 
 String searchKeyValue(List terminalArgs, {String key = ""}) {
-  if (terminalArgs.length < 2) return "";
-  if (key == "") key = terminalArgs[1];
+  if (terminalArgs.length < 2) return "Args are to short";
+  if (key == "") return terminalArgs[1];
 
-  for (final item in terminalArgs) {
-    var key_index = terminalArgs.indexOf(item);
-    if (key_index + 1 > terminalArgs.length) return "";
-    if (item == key) return terminalArgs[key_index + 1];
+  for (final String item in terminalArgs) {
+    if (item.startsWith("--") || item.startsWith("-")) {
+      var key_index = terminalArgs.indexOf(item);
+      if (key_index + 1 > terminalArgs.length) return "";
+      var parsed_key = item.replaceAll('-', '');
+      if (parsed_key == key) return terminalArgs[key_index + 1];
+    }
   }
-  return "";
+  return terminalArgs.toString();
 }
 
 String queryMaker(List<String> terminalArgs) {

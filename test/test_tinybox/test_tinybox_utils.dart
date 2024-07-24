@@ -57,11 +57,12 @@ void test_tinybox_utils() {
   group('searchKeyValue', () {
     test('searchKeyValue given 2 terminal args', () async {
       var args = ['mocked'];
-      expect(await searchKeyValue(args), equals(''));
+      expect(await searchKeyValue(args), equals("Args are to short"));
     });
     test('searchKeyValue given an terminal args only', () async {
-      var args = ['mocked', '--foo', 'bar'];
-      expect(await searchKeyValue(args), equals('bar'));
+      var args = ['mocked', '--foo', 'bar', '--boo', 'boa'];
+      expect(await searchKeyValue(args, key: 'foo'), equals('bar'));
+      expect(await searchKeyValue(args, key: 'boo'), equals('boa'));
     });
   });
 }
