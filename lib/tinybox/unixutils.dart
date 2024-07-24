@@ -6,11 +6,8 @@ import 'package:panzer_maid/tinybox/utils.dart';
 
 Future<int> touch(List<String> terminalArgs) async {
   try {
-    if (terminalArgs.length <= 2) {
-      return stdint('fail');
-    }
-
-    final file = File(terminalArgs[0]);
+    if (terminalArgs.length < 2) return stdint('fail');
+    final file = File(terminalArgs[1]);
     await file.writeAsString('');
     return stdint('ok');
   } catch (e) {
@@ -20,11 +17,9 @@ Future<int> touch(List<String> terminalArgs) async {
 
 Future<int> cat(List<String> terminalArgs) async {
   try {
-    if (terminalArgs.length <= 2) {
-      return stdint('fail');
-    }
+    if (terminalArgs.length < 2) return stdint('fail');
 
-    final file = File(terminalArgs[0]);
+    final file = File(terminalArgs[1]);
     String contents = await file.readAsString();
     print(contents);
     return stdint('ok');
@@ -35,9 +30,7 @@ Future<int> cat(List<String> terminalArgs) async {
 }
 
 Future<int> grep(List<String> terminalArgs) async {
-  if (terminalArgs.length <= 2) {
-    return stdint('fail');
-  }
+  if (terminalArgs.length <= 2) return stdint('fail');
 
   String filePath = searchKeyValue(terminalArgs, key: 'file');
   String pattern = searchKeyValue(terminalArgs, key: 'pattern');
@@ -262,6 +255,7 @@ Future<int> systeminfo(args) async {
   return stdint('ok');
 }
 
+/// Execute tinybox uni like commands
 Future<int> unixBoxExec(List<String> terminalArgs, String option) async {
   final Map tinyBoxCommands = {
     'touch': (terminalArgs) => touch(terminalArgs),
@@ -276,7 +270,8 @@ Future<int> unixBoxExec(List<String> terminalArgs, String option) async {
     'systeminfo': (terminalArgs) => systeminfo(terminalArgs),
   };
 
-  final selection = tinyBoxCommands[option];
-  if (selection != null) return await selection(terminalArgs);
+  if (tinyBoxCommands.containsKey(option) == true) {
+    return await tinyBoxCommands[option]!(terminalArgs);
+  }
   return stdint('fail');
 }
