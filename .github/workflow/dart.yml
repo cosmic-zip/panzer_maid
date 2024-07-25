@@ -1,0 +1,28 @@
+name: Panzer Maid Run Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  install_packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: sudo apt-get install -y nmap dirb dnsenum libc-bin iproute2 xxd iptables coreutils wget curl dnsutils traceroute openssl openssh-server xattr libimage-exiftool-perl tor foremost
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk-root: stable
+      - name: Install dependencies
+        run: pub get
+      - name: Build CLI app
+        run: dart compile exe bin/panzer_maid.dart
+      - name: Test CLI
+        run: dart test test/
