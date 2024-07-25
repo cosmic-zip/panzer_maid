@@ -1,16 +1,52 @@
 ![panzer](docs/index.png)
 
-![shot](docs/shot.png)
+Sure, here's the revised text with corrections in spelling and grammar:
+
+---
 
 # PanzerMaid
 
-The new and improved version of MaidZ, Witch_Craft and LET include all past projects, but this time using in dart lang.
+PanzerMaid is your extremely useful and versatile cybersecurity companion library for Linux, macOS, and Android. The new and improved version includes all past projects like MaidZ, Witch_Craft, and LET.
 
-Panzer_Maid is your extremely useful and versatile cybersecurity companion app for Linux, Windows, macOS, iOS, and Android. It does not require any external tools or advanced permissions because it uses 100% native code to perform all tasks.
+### What does it do?
 
-> Panzer_Maid is not an alias for other tools but has a curated version of the Maidz database with useful Linux automations.
+PanzerMaid is a CLI automation engine with infinite support for extensions through db.json (cybersecurity scripts), using the uwu parser and Dart code.
 
-## UNIX AND MSDOX MODES
+### Does it only execute shell scripts?
+
+No. PanzerMaid is the CLI interface using tinybox. The tinybox is a simple Linux shell and includes unixutils.dart with functions like ls, tree, mkdir, and can emulate devices like /dev/random and /dev/zero.
+
+In later versions, the unixutils will expand to become more like a busybox, suitable for use on both Unix-like systems and Android, utilizing a Flutter app to spawn the initial thread and execute external binaries like nmap or ffmpeg.
+
+### What does the @w@ (UwU) parser do?
+
+It's a simple parser for shell scripts compatible with sh. You need to replace the values in the shell script with @@value. Its use case is more limited if you use hand-made shell scripts or programming languages like Ruby or Python. It's indeed a stronger replacement for **alias**.
+
+```bash
+    foo -v -t --some-thing --another @@value -fancy=@@fancy-value -s
+```
+
+When calling it:
+
+```bash
+    myfoo --fancy-value SomeValue --value 1984
+```
+
+#### Can it be used for:
+
+1. Scheduling tasks as a daemon.
+2. Parsing and executing complex shell scripts with a large number of parameters.
+3. Managing Linux systems.
+4. Functioning as a shell and running statically linked binaries in any viable environment.
+5. Serving as a unit app for proot on Android (not available now).
+
+In the future, it will not require any external tools or advanced permissions because it uses 100% self-contained execs (scripts or binaries) to perform all tasks.
+
+## UNIX AND MSDOS MODES
+
+That's a thing for future versions: the addition of MSDOS command aliases. It depends on the development of unixutils, but it will have these aliases just for fun.
+
+Regarding running MSDOS itself, it's possible with a Flutter terminal app, but there's still a lot of work to be done.
 
 **Rewrite every thing again, but why?**
 
