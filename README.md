@@ -1,9 +1,5 @@
 ![panzer](docs/index.png)
 
-Sure, here's the revised text with corrections in spelling and grammar:
-
----
-
 # PanzerMaid
 
 PanzerMaid is your extremely useful and versatile cybersecurity companion library for Linux, macOS, and Android. The new and improved version includes all past projects like MaidZ, Witch_Craft, and LET.
