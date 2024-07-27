@@ -95,9 +95,9 @@ String puts(text,
   return formatted_text;
 }
 
-Map<String, dynamic> importDatabaseJson() {
+Map<String, dynamic> importDatabaseJson({String path = DATABASE}) {
   try {
-    final file = File(DATABASE);
+    final file = File(path);
     String contents = file.readAsStringSync();
     return jsonDecode(contents);
   } catch (e) {
