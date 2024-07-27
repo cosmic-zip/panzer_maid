@@ -21,6 +21,6 @@ jobs:
         with:
           sdk-root: stable
       - name: Build CLI app
-        run: dart compile exe bin/panzer_maid.dart
+        run: dart compile exe src/bin/panzer_maid.dart
       - name: Test CLI
-        run: dart test test/
+        run: dart test src/test/
