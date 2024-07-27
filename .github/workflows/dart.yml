@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install packages
-        run: sudo apt-get install -y nmap dirb dnsenum libc-bin iproute2 xxd iptables coreutils wget curl dnsutils traceroute openssl openssh-server xattr libimage-exiftool-perl tor foremost
+        run: sudo apt-get install -y nmap dirb dnsenum libc-bin iproute2 xxd iptables coreutils wget curl dnsutils traceroute openssl openssh-server xattr libimage-exiftool-perl tor foremost snapd
+      - name: Install dart
+        run: sudo add-apt-repository ppa:dart-team/stable && sudo apt update && sudo apt install dart
   build_and_test:
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +23,7 @@ jobs:
         with:
           sdk-root: stable
       - name: Install dependencies
-        run: pub get
+        run: cd src && pub get
       - name: Build CLI app
         run: dart compile exe bin/panzer_maid.dart
       - name: Test CLI
