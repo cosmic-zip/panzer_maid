@@ -8,15 +8,13 @@ on:
 
 jobs:
   install_packages:
-    runs-on: ubuntu-latest
+    runs-on: dart
     steps:
       - uses: actions/checkout@v3
       - name: Install packages
         run: sudo apt-get install -y nmap dirb dnsenum libc-bin iproute2 xxd iptables coreutils wget curl dnsutils traceroute openssl openssh-server xattr libimage-exiftool-perl tor foremost snapd
-      - name: Install dart
-        run: sudo add-apt-repository ppa:dart-team/stable && sudo apt update && sudo apt install dart
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: dart
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
