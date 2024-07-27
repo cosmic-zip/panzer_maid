@@ -53,10 +53,10 @@ Now, I have migrated my entire stack to Flutter and backend to serverless techno
 ![grid_app](docs/bean.png)
 
 | Project                    | Description                                                                                                                                               |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **MaidZ**                  | Improved an deferent version of witch_craft and previous tools, uses bank.json to store all alias, commands, and single line shell scripts                |
 | **Witch_Craft**            | Rust based framework, store all alias inside structs                                                                                                      |
-| **LinuxEvilToolkit**       | Original toolkit from 2018, uses ruby and store all alias and scripts inside variables, the most complete version,   deprecated due complexity            |
+| **LinuxEvilToolkit**       | Original toolkit from 2018, uses ruby and store all alias and scripts inside variables, the most complete version, deprecated due complexity              |
 | **MaidSecLists 2024 Rev2** | My own version of SecLists but using standard file names, merging word lists and remove garbage files, this rev2 refers to MaidZ version of MaidSecLists. |
 
 <p align="center">
