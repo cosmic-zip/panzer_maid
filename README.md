@@ -1,4 +1,4 @@
-![panzer](docs/index.png)
+![panzer](wiki/files/index.png)
 
 # PanzerMaid
 
@@ -50,7 +50,7 @@ Long story short: In 2019, I had to install Arch Linux on my laptop with LUKS. I
 
 Now, I have migrated my entire stack to Flutter and backend to serverless technologies like Lambda, Firebase, etc. The fact that Dart compiles also helps, as I can just build and install a small binary. I plan to implement everything in Dart and stop using third-party tools like dirb, nmap, whois, etc. This will allow me to create an extremely useful and rootless hacking app for iOS and Android.
 
-![grid_app](docs/bean.png)
+![grid_app](wiki/files/bean.png)
 
 | Project                    | Description                                                                                                                                               |
 | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
