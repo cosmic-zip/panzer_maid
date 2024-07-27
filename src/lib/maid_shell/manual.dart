@@ -1,44 +1,13 @@
-import 'package:panzer_maid/tinybox/utils.dart';
-
-import 'dart:math';
 import 'dart:io';
 
-String tuiNumbPairs() {
-  String str = "";
-  int count = 0;
-  String tmp = "";
-  for (int i = 0; i < 20; i++) {
-    var r = Random().nextInt(10);
-    tmp = tmp + "$r";
-    if (count % 2 == 0 && tmp.length > 1) {
-      str = str + " " + tmp;
-      tmp = "";
-    }
-  }
-  return str;
-}
+import 'package:panzer_maid/maid_shell/consts.dart';
+import 'package:panzer_maid/maid_shell/utils.dart';
 
-Map<String, int> windowSize() {
-  return {
-    "width": stdout.terminalColumns,
-    "height": stdout.terminalLines,
-  };
-}
-
-int headerBoxed(String message, {String symbol = "█"}) {
-  int size = stdout.terminalColumns;
-
-  if (message.length >= size) {
-    message = message.substring(0, 64);
-  }
-
-  puts(symbol * size, color: 'magenta', style: 'bold');
-  print(("\n" + " " * (size ~/ 2 - message.length ~/ 2)) +
-      (puts(message, color: 'magenta', style: 'bold', output: false)) +
-      "\n");
-  puts(symbol * size, color: 'magenta', style: 'bold', output: true) +
-      ("\n" * 2);
-  return stdint('ok');
+/// Give meaning to common [arg] words if possible
+String argumentMeanings(String arg) {
+  var out = STANDARD_ARGUMENTS[arg] ?? 'Meaning not found';
+  puts("\t--$arg: $out", color: 'cyan');
+  return out;
 }
 
 void drawLine(String color) {
@@ -68,26 +37,39 @@ int panzerMaidWelcome() {
   return stdint('ok');
 }
 
-void textBoxed() {
-  var table = {
-    100: "┏",
-    110: "┓",
-    120: "┗",
-    130: "┛",
-    140: "┳",
-    150: "┻",
-    160: "┃",
-    170: "━",
-    180: "━",
-    190: "╋",
-    200: "┣",
-    210: "┫",
-  };
+void putsItem(Map<String, dynamic> item) {
+  if (item.isEmpty) return;
+  puts("Name: ${item["name"]}", color: 'magenta', style: 'bold');
 
-  var test = (table[100]! + (table[170]! * 10) + table[110]!) +
-      ("\n" + table[160]! + "Some text " + table[160]!) +
-      ("\n" + table[200]! + (table[180]! * 10) + table[210]!) +
-      ("\n" + table[120]! + (table[180]! * 10) + table[130]!);
+  var string_args = [];
+  for (final String arg in item['command'].split(" ")) {
+    if (arg.contains("@@") && !string_args.contains(arg)) {
+      var parsed = arg.replaceAll("@", "");
+      parsed = parsed.replaceAll(":", "");
+      string_args.add(parsed);
+      argumentMeanings(parsed);
+    }
+  }
+  puts("Description: ${item["description"]}", color: 'white');
+  print(" ");
+}
 
-  print(test);
+/// User manual for db.json execs and native execs.
+int userManual(List<String> terminalArgs) {
+  var db = importDatabaseJson();
+  var module = 'all';
+
+  if (terminalArgs.length >= 2) module = terminalArgs[1];
+
+  if (module == 'all') {
+    for (final item in db['general']) {
+      putsItem(item);
+    }
+    drawLine('magenta');
+  } else {
+    for (final item in db['general']) {
+      if (item['name'] == module) putsItem(item);
+    }
+  }
+  return stdint('ok');
 }

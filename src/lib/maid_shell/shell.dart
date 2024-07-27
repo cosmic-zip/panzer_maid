@@ -1,11 +1,9 @@
-import 'package:panzer_maid/tinybox/manual.dart';
-import 'package:panzer_maid/tinybox/status.dart';
-import 'package:panzer_maid/tinybox/tui.dart';
-import 'package:panzer_maid/tinybox/utils.dart';
+import 'package:panzer_maid/maid_shell/manual.dart';
+import 'package:panzer_maid/maid_shell/utils.dart';
 
 Future<int> panzerMaidShell(List<String> terminalArgs) async {
   if (terminalArgs.isEmpty) {
-    panzerMaid();
+    panzerStatus();
     return 255;
   }
   var option = terminalArgs[0];
@@ -15,10 +13,10 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
     case '--well' || '-w':
       return panzerMaidWelcome();
     case '--panzer':
-      return panzerMaid();
-    case '--status':
       return panzerStatus();
-    case '--raw':
+    case '--status':
+      return maidStatus();
+    case '--flaw':
       return flawlessExec(terminalArgs);
     case '--install-deps':
       return pkg();

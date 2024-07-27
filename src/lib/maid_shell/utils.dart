@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:panzer_maid/tinybox/consts.dart';
+import 'package:panzer_maid/maid_shell/consts.dart';
 
 bool logger(name, origin, output) {
   var json = {
@@ -207,4 +207,49 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   });
 
   return await terminalShellExec(terminalArgs, completer);
+}
+
+int maidStatus() {
+  String slim(String symbol, String key, String value) {
+    return "\u001b[1m\u001b[35m$symbol \ $key ::\u001b[0m $value\u001b[0m";
+  }
+
+  var cpu_load = slim("🗖", "Cpu load", "");
+  var mem_total = slim("▼", "Total memory", "");
+  var mem_free = slim("▲", "Free memory", "");
+
+  var net_status = slim("🖧", "Net status", "");
+  var os_name = slim("✺", "OS name", "");
+  var kernel_version = slim("*", "Panzer Maid Version", "1.0.0");
+
+  var shell = slim("❖", "Shell", "Panzer Maid Shell");
+  var desktop_environment = slim("🗗", "UI", "Native");
+
+  var fancy_maid = MAID;
+
+  fancy_maid = fancy_maid.replaceAll("@@@cpu_load", cpu_load);
+  fancy_maid = fancy_maid.replaceAll("@@@mem_total", mem_total);
+  fancy_maid = fancy_maid.replaceAll("@@@mem_free", mem_free);
+  fancy_maid = fancy_maid.replaceAll("@@@net_status", net_status);
+  fancy_maid = fancy_maid.replaceAll("@@@os_name", os_name);
+  fancy_maid = fancy_maid.replaceAll("@@@kernel_version", kernel_version);
+  fancy_maid = fancy_maid.replaceAll("@@@shell", shell);
+  fancy_maid =
+      fancy_maid.replaceAll("@@@desktop_environment", desktop_environment);
+
+  print(fancy_maid);
+  return stdint('ok');
+}
+
+int panzerStatus() {
+  var text = '''
+
+                                    ${puts("PANZER MAID BY COSMIC 2024 BSD 3-Clause License", style: 'bold', color: 'magenta', output: false)}
+
+                                        ${puts("Need help? Use --help and have fun ;)", style: 'bold', color: 'magenta', output: false)}
+
+  ''';
+
+  print(PANZER_MAID + text);
+  return stdint('ok');
 }

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:panzer_maid/tinybox/utils.dart';
+import 'package:panzer_maid/maid_shell/utils.dart';
 
 Future<int> touch(List<String> terminalArgs) async {
   try {
@@ -256,7 +256,7 @@ Future<int> systeminfo(args) async {
 }
 
 /// Execute tinybox uni like commands
-Future<int> unixBoxExec(List<String> terminalArgs, String option) async {
+Future<int> unixToDosExec(List<String> terminalArgs, String option) async {
   final Map tinyBoxCommands = {
     'touch': (terminalArgs) => touch(terminalArgs),
     'cat': (terminalArgs) => cat(terminalArgs),
