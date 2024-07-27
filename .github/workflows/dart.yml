@@ -20,8 +20,6 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk-root: stable
-      - name: Install dependencies
-        run: cd src && pub get
       - name: Build CLI app
         run: dart compile exe bin/panzer_maid.dart
       - name: Test CLI
