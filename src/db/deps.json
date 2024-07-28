@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "nmap",
+    "dirb",
+    "dnsenum",
+    "libc-bin",
+    "iproute2",
+    "xxd",
+    "iptables",
+    "coreutils",
+    "wget",
+    "curl",
+    "dnsutils",
+    "traceroute",
+    "openssl",
+    "openssh-server",
+    "xattr",
+    "libimage-exiftool-perl",
+    "tor",
+    "foremost"
+  ]
+}
