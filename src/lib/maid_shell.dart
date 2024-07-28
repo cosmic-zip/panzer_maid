@@ -1,5 +1,5 @@
-import 'package:panzer_maid/maid_shell/dos_utils.dart';
 import 'package:panzer_maid/maid_shell/shell.dart';
+import 'package:panzer_maid/maid_shell/tinybox.dart';
 import 'package:panzer_maid/maid_shell/utils.dart';
 
 class MaidShell {
@@ -15,14 +15,12 @@ class MaidShell {
   }
 
   Future<int> flawless() async {
-    if (terminalArgs.isEmpty) return stdint('fail');
-    if (!command.isEmpty) flawlessExec(["--flaw", command]);
-    return flawlessExec(this.terminalArgs);
+    return flawlessExec(command);
   }
 
-  Future<int> unixBox() async {
+  Future<int> tinybox() async {
     if (terminalArgs.isEmpty) return stdint('fail');
-    return unixToDosExec(this.terminalArgs, this.terminalArgs[0]);
+    return tinyBox(this.terminalArgs, this.terminalArgs[0]);
   }
 
   Future<int> pkgManager() {

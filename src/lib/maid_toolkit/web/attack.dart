@@ -1,9 +1,7 @@
-import 'package:panzer_maid/tinybox.dart';
+import 'package:panzer_maid/maid_shell/utils.dart';
 
-int dns_scanner(List<String> argsv) {
-
-
-    var shellfindKeyPair
+Future<int> dns_scanner(List<String> argsv) async {
+  var domain = searchKeyValue(argsv, key: 'domain');
 
   var options = [
     "A +short",
@@ -19,8 +17,9 @@ int dns_scanner(List<String> argsv) {
   ];
 
   for (final opt in options) {
-    flawlessExec()
+    var out = await flawlessExec("dig $domain $opt");
+    if (out != 0) return out;
   }
 
-
+  return stdint('ok');
 }

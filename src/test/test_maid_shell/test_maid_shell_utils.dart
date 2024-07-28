@@ -46,11 +46,11 @@ void test_tinybox_utils() {
 
   group('flawlessExec', () {
     test('prints reminder and exits with 255 for empty arguments', () async {
-      var test_string = [];
+      var test_string = ""; // Empty
       expect(await flawlessExec(test_string), equals(255));
     });
     test('Executes ls -lha and returns 0', () async {
-      var test_string = ["--raw", "ls -la"];
+      var test_string = "ls -lha";
       expect(await flawlessExec(test_string), equals(0));
     });
   });

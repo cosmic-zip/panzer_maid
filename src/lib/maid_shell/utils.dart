@@ -150,11 +150,11 @@ String queryMaker(List<String> terminalArgs) {
   return "nothing";
 }
 
-Future<int> flawlessExec(terminalArgs) async {
+Future<int> flawlessExec(String command) async {
   puts('Reminder: Use command string inside quotes, like "command --foo bar"\n',
       style: 'bold', color: 'yellow');
-  if (terminalArgs.length >= 2) {
-    var out = await Process.run("/bin/sh", ['-c', terminalArgs[1]]);
+  if (!command.isEmpty) {
+    var out = await Process.run("/bin/sh", ['-c', command]);
     stdout.write(out.stdout);
     return out.exitCode;
   }
@@ -165,7 +165,7 @@ Future<int> pkg() async {
   var package_list = importDatabaseJson()['deps'];
   var not_installed = [];
   for (final pkg in package_list) {
-    var out = flawlessExec(["--flawless", "sudo apt install $pkg -y"]);
+    var out = flawlessExec("sudo apt install $pkg -y");
     if (out != 0) not_installed.add(pkg);
   }
   if (not_installed.isEmpty) return stdint('ok');

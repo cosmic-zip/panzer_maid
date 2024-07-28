@@ -256,7 +256,7 @@ Future<int> systeminfo(args) async {
 }
 
 /// Execute tinybox uni like commands
-Future<int> unixToDosExec(List<String> terminalArgs, String option) async {
+Future<int> tinyBox(List<String> terminalArgs, String option) async {
   final Map tinyBoxCommands = {
     'touch': (terminalArgs) => touch(terminalArgs),
     'cat': (terminalArgs) => cat(terminalArgs),

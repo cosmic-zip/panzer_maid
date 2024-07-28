@@ -17,7 +17,8 @@ Future<int> panzerMaidShell(List<String> terminalArgs) async {
     case '--status':
       return maidStatus();
     case '--flaw':
-      return flawlessExec(terminalArgs);
+      if (terminalArgs.length < 2) return stdint('fail');
+      return flawlessExec(terminalArgs[1]);
     case '--install-deps':
       return pkg();
     default:

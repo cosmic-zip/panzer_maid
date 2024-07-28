@@ -7,7 +7,7 @@ void test_unix_utils() {
       MaidShell someMaidShell = MaidShell(
         terminalArgs: ['touch', 'test_file.txt'],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(0));
     });
 
@@ -15,7 +15,7 @@ void test_unix_utils() {
       MaidShell someMaidShell = MaidShell(
         terminalArgs: ['ls', '-lha'],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(1));
     });
 
@@ -23,7 +23,7 @@ void test_unix_utils() {
       MaidShell someMaidShell = MaidShell(
         terminalArgs: ['ls', '-lha'],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(1));
     });
 
@@ -37,7 +37,7 @@ void test_unix_utils() {
           'こんにちは'
         ],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(0));
     });
 
@@ -45,7 +45,7 @@ void test_unix_utils() {
       MaidShell someMaidShell = MaidShell(
         terminalArgs: ['cat', 'test/artifacts/grepme.txt'],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(0));
     });
 
@@ -53,7 +53,7 @@ void test_unix_utils() {
       MaidShell someMaidShell = MaidShell(
         terminalArgs: ['systeminfo'],
       );
-      int result = await someMaidShell.unixBox();
+      int result = await someMaidShell.tinybox();
       expect(result, equals(0));
     });
   });
