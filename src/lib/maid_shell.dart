@@ -22,12 +22,4 @@ class MaidShell {
     if (terminalArgs.isEmpty) return stdint('fail');
     return tinyBox(this.terminalArgs, this.terminalArgs[0]);
   }
-
-  Future<int> pkgManager() {
-    return pkg();
-  }
-
-  String findKeyPair(String key) {
-    return searchKeyValue(terminalArgs, key: key);
-  }
 }

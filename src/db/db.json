@@ -36,11 +36,6 @@
       "command": "wget --recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-file-names=windows --random-wait --wait=@@wait --limit-rate=200k --tries=inf --domains example.com --no-parent @@url"
     },
     {
-      "description": "Copies the current hosts file to a backup location, then replaces it with a new hosts file from a specified directory.",
-      "name": "install.hosts",
-      "command": "cp /etc/hosts /etc/hosts-bk && cp ./data/hosts/hosts /etc/hosts && echo done"
-    },
-    {
       "description": "Creates a directory named 'out' and copies files from a specified folder to a remote host via SCP.",
       "name": "scp.copy",
       "command": "mkdir out && scp -P @@port @@folder/* hostuser@@@ip:./out/"
@@ -259,6 +254,106 @@
       "description": "lastlog: Records last login information for all users.",
       "name": "view.lastlog",
       "command": "tail -n 1000 /var/log/lastlog"
+    },
+    {
+      "name": "backup.mysql",
+      "description": "MySQL database backup",
+      "command": "mysqldump -u @@username -p@@password @@database_name > /path/to/local/backup/mysql_backup.sql"
+    },
+    {
+      "name": "backup.postgresql",
+      "description": "PostgreSQL database backup",
+      "command": "pg_dump -U @@username -W @@database_name > /path/to/local/backup/postgresql_backup.sql"
+    },
+    {
+      "name": "backup.sqlite",
+      "description": "SQLite database backup",
+      "command": "sqlite3 @@database_name .dump > /path/to/local/backup/sqlite_backup.sql"
+    },
+    {
+      "name": "backup.microsoft_sql_server",
+      "description": "Microsoft SQL Server database backup",
+      "command": "sqlcmd -S @@server_name -U @@username -P @@password -Q \"BACKUP DATABASE [@@database_name] TO DISK = '/path/to/local/backup/sql_server_backup.bak'\""
+    },
+    {
+      "name": "backup.oracle_database",
+      "description": "Oracle Database backup",
+      "command": "exp @@username/@@password@@@database_name file=/path/to/local/backup/oracle_backup.dmp full=y"
+    },
+    {
+      "name": "backup.mongodb",
+      "description": "MongoDB database backup",
+      "command": "mongodump --host @@host --port @@port --username @@username --password @@password --db @@database_name --out /path/to/local/backup/mongodb_backup"
+    },
+    {
+      "name": "backup.redis",
+      "description": "Redis database backup",
+      "command": "redis-cli --rdb /path/to/local/backup/redis_backup.rdb"
+    },
+    {
+      "name": "backup.cassandra",
+      "description": "Cassandra database backup",
+      "command": "nodetool snapshot -t backup @@keyspace_name -d /path/to/local/backup/cassandra_backup"
+    },
+    {
+      "name": "backup.mariadb",
+      "description": "MariaDB database backup",
+      "command": "mysqldump -u @@username -p@@password @@database_name > /path/to/local/backup/mariadb_backup.sql"
+    },
+    {
+      "name": "backup.ibm_db2",
+      "description": "IBM Db2 database backup",
+      "command": "db2 backup database @@database_name to /path/to/local/backup/db2_backup"
+    },
+    {
+      "name": "backup.elasticsearch",
+      "description": "Elasticsearch backup",
+      "command": "curl -X PUT 'localhost:9200/_snapshot/my_backup/snapshot_1' -H 'Content-Type: application/json' -d'{\"indices\":\"@@index_name\",\"ignore_unavailable\":true,\"include_global_state\":false}'"
+    },
+    {
+      "name": "backup.firebase_realtime_database",
+      "description": "Firebase Realtime Database backup",
+      "command": "curl -X GET 'https://@@project_id.firebaseio.com/.json?access_token=@@access_token' > /path/to/local/backup/firebase_backup.json"
+    },
+    {
+      "name": "backup.couchbase",
+      "description": "Couchbase database backup",
+      "command": "cbbackup couchbase://@@host @@path/to/local/backup/couchbase_backup -u @@username -p @@password"
+    },
+    {
+      "name": "backup.neo4j",
+      "description": "Neo4j database backup",
+      "command": "neo4j-admin dump --database @@database_name --to /path/to/local/backup/neo4j_backup.dump"
+    },
+    {
+      "name": "backup.amazon_dynamodb",
+      "description": "Amazon DynamoDB backup",
+      "command": "aws dynamodb create-backup --table-name @@table_name --backup-name dynamodb_backup_$(date +%F_%T) > /path/to/local/backup/dynamodb_backup.json"
+    },
+    {
+      "name": "backup.snowflake",
+      "description": "Snowflake database backup",
+      "command": "snowsql -a @@account -u @@username -p @@password -d @@database_name -q 'COPY INTO @~/backup/snowflake_backup.csv FROM @@database_name;'"
+    },
+    {
+      "name": "backup.teradata",
+      "description": "Teradata database backup",
+      "command": "tpt -c -f /path/to/local/backup/teradata_backup.txt -j 4 -u @@username -pw @@password -db @@database_name"
+    },
+    {
+      "name": "backup.hbase",
+      "description": "HBase database backup",
+      "command": "hbase org.apache.hadoop.hbase.snapshot.ExportSnapshot -snapshot @@snapshot_name -copy-to /path/to/local/backup/hbase_backup"
+    },
+    {
+      "name": "backup.influxdb",
+      "description": "InfluxDB database backup",
+      "command": "influxd backup -database @@database_name /path/to/local/backup/influxdb_backup"
+    },
+    {
+      "name": "backup.memcached",
+      "description": "Memcached database backup",
+      "command": "memcached-tool @@host:@@port dump > /path/to/local/backup/memcached_backup"
     }
   ]
 }

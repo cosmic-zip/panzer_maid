@@ -106,7 +106,7 @@ Map<String, dynamic> importDatabaseJson({String path = DATABASE}) {
 }
 
 String searchKeyValue(List terminalArgs, {String key = ""}) {
-  if (terminalArgs.length < 2) return "Args are to short";
+  if (terminalArgs.length < 2) return "";
   if (key == "") return terminalArgs[1];
 
   for (final String item in terminalArgs) {
@@ -150,12 +150,11 @@ String queryMaker(List<String> terminalArgs) {
   return "nothing";
 }
 
-Future<int> flawlessExec(String command) async {
-  puts('Reminder: Use command string inside quotes, like "command --foo bar"\n',
-      style: 'bold', color: 'yellow');
+Future<int> flawlessExec(String command, {String name = 'exec'}) async {
   if (!command.isEmpty) {
     var out = await Process.run("/bin/sh", ['-c', command]);
-    stdout.write(out.stdout);
+    puts("❄️  Running :: $name", style: 'bold', color: 'cyan');
+    stdout.write(out.stdout + "\n\n");
     return out.exitCode;
   }
   return 255;
@@ -207,6 +206,15 @@ Future<int> panzerRunner(List<String> terminalArgs) async {
   });
 
   return await terminalShellExec(terminalArgs, completer);
+}
+
+/// Execute one option uni like commands
+Future<int> commandOption(
+    Map commandListList, List<String> terminalArgs, String option) async {
+  if (commandListList.containsKey(option) == true) {
+    return await commandListList[option]!(terminalArgs);
+  }
+  return stdint('fail');
 }
 
 int maidStatus() {

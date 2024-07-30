@@ -269,9 +269,5 @@ Future<int> tinyBox(List<String> terminalArgs, String option) async {
     'deviceZero': (terminalArgs) => deviceZero(terminalArgs),
     'systeminfo': (terminalArgs) => systeminfo(terminalArgs),
   };
-
-  if (tinyBoxCommands.containsKey(option) == true) {
-    return await tinyBoxCommands[option]!(terminalArgs);
-  }
-  return stdint('fail');
+  return commandOption(tinyBoxCommands, terminalArgs, option);
 }

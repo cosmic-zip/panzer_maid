@@ -16,6 +16,9 @@ const STANDARD_ARGUMENTS = {
   'recursive': 'enable recursive mode',
   'overwrite': 'overwrite existing files',
   'url': 'taget complete URL path with http/https',
+  'username':
+      'specify username, if contain spaces use qoutes like: "user name with"',
+  'password': 'specify password, it will show in plaintext',
 };
 
 const MAID = '''

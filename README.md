@@ -4,9 +4,24 @@
 
 PanzerMaid is your extremely useful and versatile cybersecurity companion library for Linux, macOS, and Android. The new and improved version includes all past projects like MaidZ, Witch_Craft, and LET.
 
-### What does it do?
+### What does it do
 
 PanzerMaid is a CLI automation engine with infinite support for extensions through db.json (cybersecurity scripts), using the uwu parser and Dart code.
+
+
+### How it works
+
+![panzerMaidLib](wiki/files/panzerMaidLib.png)
+
+### Features
+
+- **Task Automation**: Automate routine tasks to improve efficiency and consistency.
+- **Forensic Research**: Tools and utilities for conducting in-depth forensic investigations.
+- **OSINT (Open Source Intelligence)**: Gather and analyze publicly available information for cybersecurity purposes.
+- **Scanning**: Perform detailed scans of systems, networks, and applications to identify vulnerabilities.
+- **Backup and Copying**: Securely backup and copy critical data.
+- **Intrusion Testing**: Test the security of applications and APIs to identify and mitigate vulnerabilities.
+- **Rootkit Prevention**: Detect and prevent rootkit infections to ensure system integrity.
 
 ### Does it only execute shell scripts?
 

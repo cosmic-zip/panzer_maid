@@ -2,6 +2,7 @@ import 'package:panzer_maid/maid_shell/utils.dart';
 
 Future<int> dns_scanner(List<String> argsv) async {
   var domain = searchKeyValue(argsv, key: 'domain');
+  if (domain.isEmpty) return stdint('fail');
 
   var options = [
     "A +short",
@@ -19,6 +20,7 @@ Future<int> dns_scanner(List<String> argsv) async {
   for (final opt in options) {
     var out = await flawlessExec("dig $domain $opt");
     if (out != 0) return out;
+    // print("dig $domain $opt");
   }
 
   return stdint('ok');
